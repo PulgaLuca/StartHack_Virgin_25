@@ -22,7 +22,7 @@ class _BadgesPageState extends State<BadgesPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Tickets',
+          'Badges',
           style: TextStyle(
             fontSize: 22,
             fontWeight: FontWeight.w500,
