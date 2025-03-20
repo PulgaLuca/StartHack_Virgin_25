@@ -17,6 +17,26 @@ class _BadgesPageState extends State<BadgesPage> {
     });
   }
 
+  void _scanQRCode(BuildContext context) async {
+    final scannedCode = await Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => QrCodeScanner()),
+    );
+
+    if (scannedCode != null) {
+      for (int i = 0; i < badgeImages.length; i++) {
+        if (scannedCode == 'badge_${i+1}.png') {
+          // print('Scanning: $scannedCode');
+          // print('Updating to: assets/badge_${i+1}_taken.png');
+          updateImage(i, 'assets/badge_${i+1}_taken.png'); // Replace with your new image
+          break;
+        }
+      }
+    } else {
+      print("No QR code scanned.");
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -64,22 +84,7 @@ class _BadgesPageState extends State<BadgesPage> {
             right: 0,
             child: Center(
               child: ElevatedButton(
-                onPressed: () => Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => QrCodeScanner(
-                      onQrCodeScan: (scannedCode) {
-                        for (int i = 0; i < badgeImages.length; i++) {
-                          if (scannedCode == 'badge_${i+1}.png') {
-                            print('Scanning: $scannedCode');
-                            print('Updating to: assets/badge_${i+1}_taken.png');
-                            updateImage(i, 'assets/badge_${i+1}_taken.png'); // Replace with your new image
-                            break;
-                          }
-                        }
-                      },
-                    ),
-                  ),
-                ),
+                onPressed: () => _scanQRCode(context),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: virginRed,
                   padding: EdgeInsets.symmetric(horizontal: 50, vertical: 15),
