@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'activity_page.dart';
 import 'ticket_page.dart';
-import 'login_page.dart';
 import 'community_page.dart'; // Importa la pagina community
 import 'package:virgin_app/badges_page.dart';
 

@@ -14,19 +14,22 @@ class _CommunityPageState extends State<CommunityPage> {
 
   final List<VotingProject> votingProjects = [
     VotingProject(
-      title: 'Youngest, Cleanest Fleet in the Sky',
-      description: 'The time for action against climate change is now. Virgin Atlantic are on a mission to achieve net-zero by 2050.',
+      title: 'Project CET',
+      description: 'Project CETI is one of Virgin Unite\'s co-funded Audacious projects. It uses machine learning and robotics to translate sperm whale clicks in Dominica. By shedding light on the intricate and intelligent communication of whales, the project not only aims to accelerate conservation efforts, but has the potential to transform the way we understand our relationship with the natural world.',
       votes: 120,
+      imagePath: 'assets/whale.jpg',
     ),
     VotingProject(
-      title: 'Pride \'n Purpose',
-      description: 'Many communities surrounding Ulusaba lack basic needs such as access to clean drinking water, basic healthcare, food, childcare, and job opportunities.',
+      title: 'Community Calling',
+      description: 'A pioneering initiative by Virgin Media O2 that has already rehomed more than 20,000 unused smartphones with people who need them.',
       votes: 95,
+      imagePath: 'assets/gift.jpg',
     ),
     VotingProject(
-      title: 'Ocean Unite / ORRAA',
-      description: 'The dual crises of climate change and mass wildlife extinctions threaten to forever change our world. By 2050, over 570 low-lying coastal cities will face threats from sea level rise and an estimated 800 million people will be at risk to storm surge and flooding from extreme weather events. The currents that swirl around Antarctica transport essential nutrients to other ocean currents that feed the rest of the world’s ocean. This vitally important region is on the frontline of the climate crisis.',
+      title: 'Eve Branson Foundation',
+      description: 'The Eve Branson Foundation is a small non-profit based in Morocco. Their mission is to create opportunities for local people in the High Atlas Mountains which can make a meaningful difference to their families and community. They have developed initiatives in four key areas: artisanal training, environment, healthcare and education.',
       votes: 80,
+      imagePath: 'assets/community.jpg',
     ),
   ];
 
@@ -97,7 +100,7 @@ class _CommunityPageState extends State<CommunityPage> {
               ),
             ),
             
-            // Rebuild the Forest Section
+            // Epic Sea Change For All Section
             _buildRebuildForestCard(context),
             
             SizedBox(height: 24),
@@ -144,13 +147,13 @@ class _CommunityPageState extends State<CommunityPage> {
             
             // Voting projects in scrollable horizontal list
             Container(
-              height: 200,
+              height: 230, // Aumentata l'altezza per adattarsi alle card con immagini
               child: ListView.builder(
                 scrollDirection: Axis.horizontal,
-                padding: EdgeInsets.symmetric(horizontal: 10), // Ridotto da 12 a 10
+                padding: EdgeInsets.symmetric(horizontal: 10),
                 itemCount: votingProjects.length,
                 itemBuilder: (context, index) {
-                  return _buildVotingCard(context, votingProjects[index], index);
+                  return _buildVotingCardWithBanner(context, votingProjects[index], index);
                 },
               ),
             ),
@@ -162,7 +165,7 @@ class _CommunityPageState extends State<CommunityPage> {
     );
   }
 
-  // Widget per il card "Rebuild the forest"
+  // Widget per il card "Epic Sea Change For All"
   Widget _buildRebuildForestCard(BuildContext context) {
     double spentPercentage = spentPoints / totalPoints; // Percentage of points spent
 
@@ -184,7 +187,7 @@ class _CommunityPageState extends State<CommunityPage> {
                 topRight: Radius.circular(16),
               ),
               image: DecorationImage(
-                image: AssetImage('assets/forest.jpg'),
+                image: AssetImage('assets/mangrove.jpg'),
                 fit: BoxFit.cover,
               ),
             ),
@@ -206,7 +209,7 @@ class _CommunityPageState extends State<CommunityPage> {
               padding: EdgeInsets.all(20),
               alignment: Alignment.bottomLeft,
               child: Text(
-                'Protecting our Planet',
+                'Epic Sea Change For All',
                 style: TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
@@ -222,7 +225,7 @@ class _CommunityPageState extends State<CommunityPage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Celebrate the achievement of 1M virgin points globally spent this year with the "Protecting our Planet" project! Make the difference and engage with the community! Contrails, aircraft condensation trails, heighten the effect of global warming, which may account for more than half (57%) of the entire climate impact of aviation.',
+                  'Virgin Voyages have teamed up with Virgin\'s Foundation, Virgin Unite, to support mangrove forest projects in the Caribbean. The aim is to accelerate nature-based solutions to climate change, and create a scalable model for other regions in the world.',
                   style: TextStyle(
                     fontSize: 15,
                     color: Colors.grey[700],
@@ -333,25 +336,135 @@ class _CommunityPageState extends State<CommunityPage> {
     );
   }
 
-  // Widget per costruire card di voto in stile Virgin
+  // Nuovo widget per costruire card di voto con banner in stile Virgin
+  Widget _buildVotingCardWithBanner(BuildContext context, VotingProject project, int index) {
+    return Container(
+      width: 280, // Allargata per fare spazio all'immagine
+      margin: EdgeInsets.symmetric(horizontal: 6),
+      child: Card(
+        elevation: 3,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Banner image con titolo
+            Container(
+              height: 100,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(16),
+                  topRight: Radius.circular(16),
+                ),
+                image: DecorationImage(
+                  image: AssetImage(project.imagePath),
+                  fit: BoxFit.cover,
+                ),
+              ),
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(16),
+                    topRight: Radius.circular(16),
+                  ),
+                  gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [
+                      Colors.transparent,
+                      Colors.black.withOpacity(0.7),
+                    ],
+                  ),
+                ),
+                padding: EdgeInsets.all(12),
+                alignment: Alignment.bottomLeft,
+                child: Text(
+                  project.title,
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+            ),
+            // Contenuto
+            Padding(
+              padding: EdgeInsets.all(12),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Project description
+                  Text(
+                    project.description,
+                    style: TextStyle(
+                      fontSize: 13,
+                      color: Colors.grey[600],
+                    ),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  SizedBox(height: 12),
+                  // Votes counter and vote button
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        children: [
+                          Icon(Icons.people, size: 12, color: Colors.grey[700]),
+                          SizedBox(width: 4),
+                          Text(
+                            '${project.votes} votes',
+                            style: TextStyle(
+                              fontSize: 12,
+                              color: Colors.grey[700],
+                            ),
+                          ),
+                        ],
+                      ),
+                      ElevatedButton(
+                        onPressed: () => _voteForProject(index),
+                        child: Text('Vote'),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: virginRed,
+                          foregroundColor: Colors.white,
+                          padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  // Widget per costruire card di voto originale (non più usato ma mantenuto per riferimento)
   Widget _buildVotingCard(BuildContext context, VotingProject project, int index) {
     return Container(
-      width: 255, // Ridotto ulteriormente da 260 a 255
-      margin: EdgeInsets.symmetric(horizontal: 6), // Ridotto da 8 a 6
+      width: 255,
+      margin: EdgeInsets.symmetric(horizontal: 6),
       child: Card(
         elevation: 3,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16),
         ),
         child: Padding(
-          padding: EdgeInsets.all(12), // Ridotto da 14 a 12
+          padding: EdgeInsets.all(12),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // Project icon (placeholder)
               Container(
-                width: 36, // Ridotto da 40 a 36
-                height: 36, // Ridotto da 40 a 36
+                width: 36,
+                height: 36,
                 decoration: BoxDecoration(
                   color: virginRed.withOpacity(0.1),
                   borderRadius: BorderRadius.circular(8),
@@ -359,10 +472,10 @@ class _CommunityPageState extends State<CommunityPage> {
                 child: Icon(
                   _getIconForProject(index),
                   color: virginRed,
-                  size: 20, // Ridotto da 22 a 20
+                  size: 20,
                 ),
               ),
-              SizedBox(height: 10), // Ridotto da 12 a 10
+              SizedBox(height: 10),
               // Project title
               Text(
                 project.title,
@@ -426,7 +539,7 @@ class _CommunityPageState extends State<CommunityPage> {
   IconData _getIconForProject(int index) {
     List<IconData> icons = [
       Icons.airplanemode_active,
-      Icons.nature_people,
+      Icons.smartphone,
       Icons.water_drop,
     ];
     
@@ -438,10 +551,12 @@ class VotingProject {
   final String title;
   final String description;
   int votes;
+  final String imagePath;
 
   VotingProject({
     required this.title,
     required this.description,
     this.votes = 0,
+    required this.imagePath,
   });
 }
