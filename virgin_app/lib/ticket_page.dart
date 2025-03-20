@@ -130,7 +130,7 @@ class _TicketsPageState extends State<TicketsPage> with SingleTickerProviderStat
       'title': 'Gym Access',
       'membershipNumber': '9876543210',
       'validUntil': '15 MAY 2025',
-      'backgroundColor': Color(0xFFE41B13),
+      'backgroundColor': Color(0xFFE50914),
       'textColor': Colors.white,
       'logoPath': 'assets/virgin_active_logo.png',
       'company': 'Virgin Active',
@@ -146,7 +146,7 @@ class _TicketsPageState extends State<TicketsPage> with SingleTickerProviderStat
       'time': '19:30',
       'location': 'San Siro Stadium, Milan',
       'seat': 'Section B, Row 10, Seat 45',
-      'backgroundColor': Color(0xFF760027),
+      'backgroundColor': Color(0xFFE50914),
       'textColor': Colors.white,
       'logoPath': 'assets/virgin_radio_logo.png',
       'company': 'Virgin Radio'

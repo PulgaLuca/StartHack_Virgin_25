@@ -165,8 +165,7 @@ class TrainBookingPage extends StatelessWidget {
 }
 
 class GymPage extends StatelessWidget {
-  final Color virginRed = Color(0xFFE41B13); // Rosso Virgin Active
-  
+  final Color virginRed = Color(0xFFE50914);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -238,9 +237,10 @@ class GymPage extends StatelessWidget {
 }
 
 class MoviePage extends StatelessWidget {
-  final Color virginRed = Color(0xFF760027); // Rosso Virgin Radio
+  final Color virginRed = Color(0xFFE50914);
   
   @override
+
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -379,7 +379,7 @@ class _ActivityPageState extends State<ActivityPage> {
                         logo: 'assets/virgin_atlantic_logo.png',
                         title: 'Flights',
                         subtitle: 'Virgin Atlantic',
-                        color: Color(0xFFE50914),
+                        color: virginRed,
                         iconData: Icons.airplanemode_active,
                         page: AirplaneBookingPage(),
                         backgroundImage: 'assets/airplane.jpeg',
@@ -389,7 +389,7 @@ class _ActivityPageState extends State<ActivityPage> {
                         logo: 'assets/virgin_hotels_logo.png',
                         title: 'Hotels',
                         subtitle: 'Virgin Hotels',
-                        color: Color(0xFFE50914),
+                        color: virginRed,
                         iconData: Icons.hotel,
                         page: TrainBookingPage(),
                         backgroundImage: 'assets/hotel.jpg',
@@ -424,7 +424,7 @@ class _ActivityPageState extends State<ActivityPage> {
                         logo: 'assets/virgin_active_logo.png',
                         title: 'Fitness',
                         subtitle: 'Virgin Active',
-                        color: Color(0xFFE41B13),
+                        color: virginRed,
                         iconData: Icons.fitness_center,
                         page: GymPage(),
                         backgroundImage: 'assets/gym.jpg',
@@ -459,7 +459,7 @@ class _ActivityPageState extends State<ActivityPage> {
                         logo: 'assets/virgin_radio_logo.png',
                         title: 'Events',
                         subtitle: 'Virgin Radio',
-                        color: Color(0xFF760027),
+                        color: virginRed,
                         iconData: Icons.music_note,
                         page: MoviePage(),
                         backgroundImage: 'assets/radio.jpg',
