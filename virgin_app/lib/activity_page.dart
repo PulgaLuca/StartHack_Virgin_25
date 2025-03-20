@@ -1,71 +1,9 @@
 import 'package:flutter/material.dart';
 import 'home_page.dart'; // Per la navigazione verso la home
 import 'ticket_page.dart'; // Per la navigazione verso tickets
+import 'airplane_booking_page.dart'; // Importazione della versione completa di AirplaneBookingPage
 
 // Pagine di prenotazione con design migliorato
-class AirplaneBookingPage extends StatelessWidget {
-  final Color virginRed = Color(0xFFE50914);
-  
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'Flight Booking',
-          style: TextStyle(
-            fontSize: 22,
-            fontWeight: FontWeight.w500,
-            color: Colors.white,
-          ),
-        ),
-        backgroundColor: virginRed,
-        elevation: 2,
-        iconTheme: IconThemeData(
-          color: Colors.white,
-        ),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(Icons.airplanemode_active, size: 80, color: virginRed),
-            SizedBox(height: 20),
-            Text(
-              'Flight Booking',
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-                color: Colors.black87,
-              ),
-            ),
-            SizedBox(height: 10),
-            Text(
-              'Book your next journey with Virgin Atlantic',
-              style: TextStyle(
-                fontSize: 16,
-                color: Colors.grey[600],
-              ),
-            ),
-            SizedBox(height: 30),
-            ElevatedButton(
-              onPressed: () {},
-              child: Text('Start Booking'),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: virginRed,
-                foregroundColor: Colors.white,
-                padding: EdgeInsets.symmetric(horizontal: 30, vertical: 15),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(30),
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
 class TrainBookingPage extends StatelessWidget {
   final Color virginRed = Color(0xFFE50914);
   
@@ -344,7 +282,7 @@ class _ActivityPageState extends State<ActivityPage> {
                         icon: Icons.airplanemode_active,
                         title: 'Flights',
                         color: Colors.redAccent,
-                        page: AirplaneBookingPage(),
+                        page: AirplaneBookingPage(), // Ora usa la versione completa
                       ),
                       _buildActivityCard(
                         context,
@@ -429,7 +367,13 @@ class _ActivityPageState extends State<ActivityPage> {
       ),
       // FAB per aggiungere nuovi elementi
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          // Naviga alla home
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => HomePage()),
+          );
+        },
         backgroundColor: Colors.white,
         child: Icon(Icons.home, color: virginRed, size: 30),
         elevation: 4,

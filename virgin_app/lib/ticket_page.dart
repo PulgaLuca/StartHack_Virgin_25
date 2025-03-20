@@ -547,26 +547,6 @@ class _TicketsPageState extends State<TicketsPage> with SingleTickerProviderStat
       ],
     );
   }
-  
-  Widget _buildBenefitRow(IconData icon, String text) {
-    return Row(
-      children: [
-        Icon(
-          icon,
-          size: 18,
-          color: Color(0xFFE41B13),
-        ),
-        SizedBox(width: 8),
-        Text(
-          text,
-          style: TextStyle(
-            fontSize: 14,
-            color: Colors.black87,
-          ),
-        ),
-      ],
-    );
-  }
 
   Widget _buildEventTicket(Map<String, dynamic> ticket, bool isExpanded) {
     return Column(
