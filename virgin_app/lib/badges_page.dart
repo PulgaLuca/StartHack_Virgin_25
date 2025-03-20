@@ -7,10 +7,10 @@ class BadgesPage extends StatefulWidget {
 }
 
 class _BadgesPageState extends State<BadgesPage> {
-  List<String> badgeImages = List.generate(18, (index) => 'assets/badge_1.png');
+  List<String> badgeImages = List.generate(6, (index) => 'assets/badge_${index+1}.png');
 
-  // Function to update image at specific index
   void updateImage(int index, String newImagePath) {
+    if (!mounted) return; // Prevent updating if widget is unmounted
     setState(() {
       badgeImages[index] = newImagePath;
     });
@@ -29,7 +29,7 @@ class _BadgesPageState extends State<BadgesPage> {
             child: GridView.builder(
               padding: EdgeInsets.only(bottom: 80), // Prevents button from covering the last row
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 3, // 3 columns
+                crossAxisCount: 2, // 2 columns
                 crossAxisSpacing: 8.0,
                 mainAxisSpacing: 8.0,
               ),
@@ -61,8 +61,10 @@ class _BadgesPageState extends State<BadgesPage> {
                     builder: (context) => QrCodeScanner(
                       onQrCodeScan: (scannedCode) {
                         for (int i = 0; i < badgeImages.length; i++) {
-                          if (scannedCode == 'badge_1.png') {
-                            updateImage(i, 'assets/badge_2.png'); // Replace with your new image
+                          if (scannedCode == 'badge_${i+1}.png') {
+                            print('Scanning: $scannedCode');
+                            print('Updating to: assets/badge_${i+1}_taken.png');
+                            updateImage(i, 'assets/badge_${i+1}_taken.png'); // Replace with your new image
                             break;
                           }
                         }
