@@ -4,7 +4,93 @@ class CommunityPage extends StatefulWidget {
   @override
   _CommunityPageState createState() => _CommunityPageState();
 }
+// Classe Avatar globale riutilizzabile in tutte le pagine
+class AvatarWidget extends StatelessWidget {
+  final String imagePath; 
+  final double size;
+  final VoidCallback? onTap;
 
+  const AvatarWidget({
+    Key? key,
+    this.imagePath = 'assets/profile_image.png', // Immagine di default dell'utente
+    this.size = 40,
+    this.onTap,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap ?? () {
+        // Mostra un menu o naviga al profilo
+        showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: Text('Your Profile'),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Container(
+                  width: 80,
+                  height: 80,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Color(0xFF58D68D), // Sfondo verde
+                  ),
+                  child: ClipOval(
+                    child: Image.asset(
+                      imagePath,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+                SizedBox(height: 16),
+                Text(
+                  'Sarah Rossi',
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                SizedBox(height: 8),
+                Text('7,500 points'),
+                SizedBox(height: 16),
+                ElevatedButton(
+                  onPressed: () => Navigator.pop(context),
+                  child: Text('Close'),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Color(0xFFE50914),
+                    foregroundColor: Colors.white,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+      child: Container(
+        width: size,
+        height: size,
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          color: Color(0xFF58D68D), // Sfondo verde
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.1),
+              blurRadius: 4,
+              offset: Offset(0, 2),
+            ),
+          ],
+        ),
+        child: ClipOval(
+          child: Image.asset(
+            imagePath,
+            fit: BoxFit.cover,
+          ),
+        ),
+      ),
+    );
+  }
+}
 class _CommunityPageState extends State<CommunityPage> {
   final Color virginRed = Color(0xFFE50914); // Virgin Red color
 
@@ -53,6 +139,15 @@ class _CommunityPageState extends State<CommunityPage> {
             color: Colors.white,
           ),
         ),
+        actions: [
+          // Avatar in alto a destra
+          Padding(
+            padding: EdgeInsets.only(right: 16),
+            child: AvatarWidget(
+              imagePath: 'assets/mostro2_profilo.png',
+            ),
+          ),
+        ],
         backgroundColor: virginRed, // Virgin Red AppBar
         elevation: 2,
         iconTheme: IconThemeData(

@@ -26,7 +26,7 @@ class AvatarWidget extends StatelessWidget {
         showDialog(
           context: context,
           builder: (context) => AlertDialog(
-            title: Text('Il Tuo Profilo'),
+            title: Text('Your Profile'),
             content: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -53,11 +53,11 @@ class AvatarWidget extends StatelessWidget {
                   ),
                 ),
                 SizedBox(height: 8),
-                Text('7,500 punti'),
+                Text('7,500 points'),
                 SizedBox(height: 16),
                 ElevatedButton(
                   onPressed: () => Navigator.pop(context),
-                  child: Text('Chiudi'),
+                  child: Text('Close'),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Color(0xFFE50914),
                     foregroundColor: Colors.white,
@@ -832,82 +832,6 @@ class ActivityPage extends StatelessWidget {
       ),
       body: Center(
         child: Text('Activities Content'),
-      ),
-    );
-  }
-}
-
-// Estendi CommunityPage con avatar
-class CommunityPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Community'),
-        backgroundColor: Color(0xFFE50914),
-        actions: [
-          // Avatar in alto a destra
-          Padding(
-            padding: EdgeInsets.only(right: 16),
-            child: AvatarWidget(
-              imagePath: 'assets/mostro2_profilo.png',
-            ),
-          ),
-        ],
-      ),
-      body: Center(
-        child: Text('Community Content'),
-      ),
-    );
-  }
-}
-
-// Estendi TicketsPage con avatar
-class TicketsPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Your Tickets'),
-        backgroundColor: Color(0xFFE50914),
-        centerTitle: true,
-        actions: [
-          // Avatar in alto a destra
-          Padding(
-            padding: EdgeInsets.only(right: 16),
-            child: AvatarWidget(
-              imagePath: 'assets/mostro2_profilo.png',
-            ),
-          ),
-        ],
-      ),
-      body: Center(
-        child: Text('Tickets Content'),
-      ),
-    );
-  }
-}
-
-// Estendi BadgesPage con avatar
-class BadgesPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Badges'),
-        backgroundColor: Color(0xFFE50914),
-        actions: [
-          // Avatar in alto a destra
-          Padding(
-            padding: EdgeInsets.only(right: 16),
-            child: AvatarWidget(
-              imagePath: 'assets/mostro2_profilo.png',
-            ),
-          ),
-        ],
-      ),
-      body: Center(
-        child: Text('Badges Content'),
       ),
     );
   }

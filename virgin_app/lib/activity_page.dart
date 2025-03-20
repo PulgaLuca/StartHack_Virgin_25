@@ -22,7 +22,7 @@ class AvatarWidget extends StatelessWidget {
         showDialog(
           context: context,
           builder: (context) => AlertDialog(
-            title: Text('Il Tuo Profilo'),
+            title: Text('Your Profile'),
             content: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -49,11 +49,11 @@ class AvatarWidget extends StatelessWidget {
                   ),
                 ),
                 SizedBox(height: 8),
-                Text('7,500 punti'),
+                Text('7,500 points'),
                 SizedBox(height: 16),
                 ElevatedButton(
                   onPressed: () => Navigator.pop(context),
-                  child: Text('Chiudi'),
+                  child: Text('Close'),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Color(0xFFE50914),
                     foregroundColor: Colors.white,
@@ -344,7 +344,6 @@ class _ActivityPageState extends State<ActivityPage> {
             padding: EdgeInsets.only(right: 16),
             child: AvatarWidget(
               imagePath: 'assets/mostro2_profilo.png',
-              size: 40,
             ),
           ),
         ],
@@ -670,32 +669,6 @@ class _ActivityPageState extends State<ActivityPage> {
             ),
           ),
         ),
-      ),
-    );
-  }
-}
-
-// Presupponendo che questa classe esista
-class AirplaneBookingPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Flight Booking'),
-        backgroundColor: Color(0xFFE50914),
-        actions: [
-          // Avatar in alto a destra
-          Padding(
-            padding: EdgeInsets.only(right: 16),
-            child: AvatarWidget(
-              imagePath: 'assets/mostro2_profilo.png',
-              size: 40,
-            ),
-          ),
-        ],
-      ),
-      body: Center(
-        child: Text('Flight Booking Content'),
       ),
     );
   }
