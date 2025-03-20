@@ -11,6 +11,13 @@ class _TicketsPageState extends State<TicketsPage> with SingleTickerProviderStat
   bool _isCardExpanded = false;
   final Color virginRed = Color(0xFFE50914);
   
+  // Definizione dei colori di sfondo per gli avatar con maggiore contrasto
+  final Map<String, Color> avatarBackgrounds = {
+    'assets/mostro2_profilo.png': Color(0xFF5DADE2), // Blu chiaro
+    'assets/mostro3_profilo.png': Color(0xFFF4D03F), // Giallo
+    'assets/mostro4_profilo.png': Color(0xFF58D68D), // Verde
+  };
+  
   // Definizione dei biglietti (in stile iOS Wallet)
   final List<Map<String, dynamic>> tickets = [
     {
@@ -145,7 +152,11 @@ class _TicketsPageState extends State<TicketsPage> with SingleTickerProviderStat
         children: [
           CircleAvatar(
             radius: 24,
-            backgroundImage: AssetImage(imagePath),
+            backgroundColor: avatarBackgrounds[imagePath] ?? Colors.grey[300],
+            child: CircleAvatar(
+              radius: 22,
+              backgroundImage: AssetImage(imagePath),
+            ),
           ),
           SizedBox(width: 15),
           Text(
@@ -172,10 +183,14 @@ class _TicketsPageState extends State<TicketsPage> with SingleTickerProviderStat
       height: 38,
       decoration: BoxDecoration(
         shape: BoxShape.circle,
+        color: avatarBackgrounds[imagePath] ?? Colors.white,
         border: Border.all(color: Colors.white, width: 2),
       ),
-      child: CircleAvatar(
-        backgroundImage: AssetImage(imagePath),
+      child: Padding(
+        padding: EdgeInsets.all(2.0),
+        child: CircleAvatar(
+          backgroundImage: AssetImage(imagePath),
+        ),
       ),
     );
   }
@@ -905,7 +920,7 @@ class _TicketsPageState extends State<TicketsPage> with SingleTickerProviderStat
       // AppBar con titolo centrato
       appBar: AppBar(
         title: Text(
-          'Tickets',
+          'Your Tickets',
           style: TextStyle(
             fontSize: 22,
             fontWeight: FontWeight.w500,
