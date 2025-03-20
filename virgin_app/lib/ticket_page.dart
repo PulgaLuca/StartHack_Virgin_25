@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'activity_page.dart';
+import 'home_page.dart';
 
 class TicketsPage extends StatefulWidget {
   @override
@@ -10,6 +12,7 @@ class _TicketsPageState extends State<TicketsPage> with SingleTickerProviderStat
   late AnimationController _animationController;
   int _selectedCardIndex = -1;
   bool _isCardExpanded = false;
+  final Color virginRed = Color(0xFFE50914);
   
   // Definizione dei biglietti (in stile iOS Wallet)
   final List<Map<String, dynamic>> tickets = [
@@ -35,7 +38,7 @@ class _TicketsPageState extends State<TicketsPage> with SingleTickerProviderStat
       'title': 'Gym Access',
       'membershipNumber': '9876543210',
       'validUntil': '15 MAY 2025',
-      'backgroundColor': Color(0xFFE41B13),  // Rosso Virgin Active
+      'backgroundColor': Color(0xFFE41B13),
       'textColor': Colors.white,
       'logoPath': 'assets/virgin_active_logo.png',
       'company': 'Virgin Active',
@@ -788,11 +791,30 @@ class _TicketsPageState extends State<TicketsPage> with SingleTickerProviderStat
     );
   }
 
+  // Metodo per gestire la navigazione
+  void _onItemTapped(int index) {
+    // Naviga alle diverse pagine in base all'indice
+    if (index == 0) {
+      // Home
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => HomePage()),
+      );
+    } else if (index == 1) {
+      // Activity
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => ActivityPage()),
+      );
+    }
+    // Altre opzioni di navigazione possono essere aggiunte qui
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[100],
-      // Intestazione semplice con solo titolo
+      // AppBar con freccia indietro standard a sinistra
       appBar: AppBar(
         title: Text(
           'Tickets',
@@ -802,20 +824,17 @@ class _TicketsPageState extends State<TicketsPage> with SingleTickerProviderStat
             color: Colors.white,
           ),
         ),
-        backgroundColor: Color(0xFFE50914),
+        backgroundColor: virginRed,
         elevation: 2,
         centerTitle: false,
         iconTheme: IconThemeData(
-          color: Colors.white, // Imposta il colore bianco per la freccia indietro
+          color: Colors.white, // Assicura che la freccia sia bianca
         ),
-        actions: [],
+        // Questo permetterà di visualizzare la freccia indietro standard
+        // esattamente come appare nella home page
+        automaticallyImplyLeading: true,
       ),
-      // FAB per aggiungere nuovi ticket
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        backgroundColor: Color(0xFFE50914),
-        child: Icon(Icons.add, color: Colors.white),
-      ),
+      // Il corpo dell'app con lo stack dei biglietti
       body: Container(
         color: Colors.grey[100],
         child: Column(
@@ -828,6 +847,49 @@ class _TicketsPageState extends State<TicketsPage> with SingleTickerProviderStat
                   return _buildCard(index, tickets[index]);
                 }),
               ),
+            ),
+          ],
+        ),
+      ),
+      // FAB per aggiungere nuovi ticket
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {},
+        backgroundColor: virginRed,
+        child: Icon(Icons.add, color: Colors.white),
+        elevation: 4,
+        shape: CircleBorder(), // Assicura che sia perfettamente circolare
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      // Bottom navigation bar
+      bottomNavigationBar: BottomAppBar(
+        shape: CircularNotchedRectangle(),
+        color: virginRed,
+        clipBehavior: Clip.antiAlias,
+        notchMargin: 8,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            IconButton(
+              icon: Icon(Icons.menu, color: Colors.white),
+              onPressed: () => _onItemTapped(1), // Activity page
+              tooltip: 'Activity',
+            ),
+            // Current page (Tickets) - highlighted
+            IconButton(
+              icon: Icon(Icons.confirmation_number, color: Colors.white),
+              onPressed: () {}, // Già nella pagina Tickets
+              tooltip: 'Tickets',
+            ),
+            SizedBox(width: 50), // Spazio per il FAB
+            IconButton(
+              icon: Icon(Icons.groups, color: Colors.white),
+              onPressed: () {}, // Implementare navigazione alla pagina Community
+              tooltip: 'Community',
+            ),
+            IconButton(
+              icon: Icon(Icons.military_tech, color: Colors.white),
+              onPressed: () {}, // Implementare navigazione alla pagina Achievements
+              tooltip: 'Achievements',
             ),
           ],
         ),
