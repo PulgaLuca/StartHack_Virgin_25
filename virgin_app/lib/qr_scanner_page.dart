@@ -1,30 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 
-class QrCodeScanner extends StatelessWidget {
-  final Function(String) onQrCodeScan;
+class QrCodeScanner extends StatefulWidget {
+  @override
+  _QRCodeScannerState createState() => _QRCodeScannerState();
+}
 
-  QrCodeScanner({super.key, required this.onQrCodeScan});
-
-  final MobileScannerController controller = MobileScannerController();
+class _QRCodeScannerState extends State<QrCodeScanner> {
+  MobileScannerController controller = MobileScannerController();
+  bool isScanning = true; // To prevent multiple pops
 
   @override
   Widget build(BuildContext context) {
-    return MobileScanner(
-      controller: controller,
-      onDetect: (BarcodeCapture capture) {
-        final List<Barcode> barcodes = capture.barcodes;
+    return Scaffold(
+      appBar: AppBar(title: Text("QR Code Scanner")),
+      body: MobileScanner(
+        controller: controller,
+        onDetect: (capture) {
+          if (!isScanning) return; // Prevent multiple detections
 
-        for (final barcode in barcodes) {
-          // Pass the barcode raw value to the callback function
-          onQrCodeScan(barcode.rawValue ?? '');
-
-          // Use Future.delayed to ensure context is stable before navigating
-          Future.delayed(Duration.zero, () {
-            Navigator.pop(context); // Ensure this happens after the frame is rendered
-          });
-        }
-      },
+          final List<Barcode> barcodes = capture.barcodes;
+          for (final barcode in barcodes) {
+            if (barcode.rawValue != null) {
+              isScanning = false; // Stop further detections
+              Navigator.pop(context, barcode.rawValue); // Return result
+              break;
+            }
+          }
+        },
+      ),
     );
   }
 }
