@@ -40,7 +40,7 @@ class _CommunityPageState extends State<CommunityPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[50], // Light grey background
+      backgroundColor: Colors.white,
       appBar: AppBar(
         title: Text(
           'Community',

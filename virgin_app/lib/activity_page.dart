@@ -9,6 +9,7 @@ class TrainBookingPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         title: Text(
           'Hotel Booking',
@@ -28,7 +29,7 @@ class TrainBookingPage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(Icons.train, size: 80, color: virginRed),
+            Icon(Icons.hotel, size: 80, color: virginRed),
             SizedBox(height: 20),
             Text(
               'Hotel Booking',

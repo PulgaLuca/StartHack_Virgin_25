@@ -75,6 +75,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: _pages[_selectedIndex],
       bottomNavigationBar: BottomAppBar(
         shape: CircularNotchedRectangle(),
@@ -362,7 +363,6 @@ class HomeContent extends StatelessWidget {
                             },
                             child: Text('View Ticket'),
                             style: ElevatedButton.styleFrom(
-                              foregroundColor: Colors.white,
                               backgroundColor: virginRed,
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10),
