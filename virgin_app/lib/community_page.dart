@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'home_page.dart';
-import 'activity_page.dart';
-import 'ticket_page.dart';
 
 class CommunityPage extends StatefulWidget {
   @override
@@ -40,33 +37,8 @@ class _CommunityPageState extends State<CommunityPage> {
     });
   }
 
-  // Metodo per gestire la navigazione
-  void _onItemTapped(int index) {
-    if (index == 0) {
-      // Home
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => HomePage()),
-      );
-    } else if (index == 1) {
-      // Activity
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => ActivityPage()),
-      );
-    } else if (index == 2) {
-      // Tickets
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => TicketsPage()),
-      );
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
-    double spentPercentage = spentPoints / totalPoints; // Percentage of points spent
-
     return Scaffold(
       backgroundColor: Colors.grey[50], // Light grey background
       appBar: AppBar(
@@ -184,50 +156,6 @@ class _CommunityPageState extends State<CommunityPage> {
             ),
             
             SizedBox(height: 24),
-          ],
-        ),
-      ),
-      // FAB per tornare alla home
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => _onItemTapped(0),
-        backgroundColor: Colors.white,
-        child: Icon(Icons.home, color: virginRed, size: 30),
-        shape: CircleBorder(),
-        tooltip: 'Home',
-        elevation: 4,
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      // Bottom navigation bar
-      bottomNavigationBar: BottomAppBar(
-        shape: CircularNotchedRectangle(),
-        color: virginRed,
-        clipBehavior: Clip.antiAlias,
-        notchMargin: 8,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            IconButton(
-              icon: Icon(Icons.menu, color: Colors.white),
-              onPressed: () => _onItemTapped(1), // Activity page
-              tooltip: 'Activity',
-            ),
-            IconButton(
-              icon: Icon(Icons.confirmation_number, color: Colors.white),
-              onPressed: () => _onItemTapped(2), // Tickets page
-              tooltip: 'Tickets',
-            ),
-            SizedBox(width: 50), // Spazio per il FAB
-            // Current page (Community) - highlighted
-            IconButton(
-              icon: Icon(Icons.groups, color: Colors.white),
-              onPressed: () {}, // Già nella pagina Community
-              tooltip: 'Community',
-            ),
-            IconButton(
-              icon: Icon(Icons.military_tech, color: Colors.white),
-              onPressed: () {}, // Achievements page (da implementare)
-              tooltip: 'Achievements',
-            ),
           ],
         ),
       ),

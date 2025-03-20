@@ -3,7 +3,6 @@ import 'activity_page.dart';
 import 'ticket_page.dart';
 import 'login_page.dart';
 import 'community_page.dart'; // Importa la pagina community
-import 'login_page.dart'; // Importa la pagina di login
 import 'package:virgin_app/badges_page.dart';
 
 class HomePage extends StatefulWidget {
@@ -60,9 +59,9 @@ class _HomePageState extends State<HomePage> {
   // Pagine per il tab navigator
   final List<Widget> _pages = [
     HomeContent(), // Una classe separata per il contenuto della home
-    Center(child: Text('Community Page')),
-    Center(child: Text('Profile Page')),
-    Center(child: Text('Home Page Content')),
+    CommunityPage(),
+    ActivityPage(),
+    TicketsPage(),
     BadgesPage()
   ];
 
@@ -75,85 +74,6 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'Virgin',
-          style: TextStyle(
-            fontSize: 22,
-            fontWeight: FontWeight.w500,
-            color: Colors.white,
-          ),
-        ),
-        backgroundColor: virginRed,
-        elevation: 2,
-        actions: [
-          // Pulsante punti
-          Container(
-            padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-            margin: EdgeInsets.only(right: 8),
-            decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.2),
-              borderRadius: BorderRadius.circular(16),
-            ),
-            child: Row(
-              children: [
-                Icon(Icons.stars, color: Colors.amber, size: 18),
-                SizedBox(width: 4),
-                Text(
-                  '$userPoints',
-                  style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          // Pulsante profilo o logout
-          IconButton(
-            icon: Icon(Icons.person, color: Colors.white),
-            onPressed: () {
-              // Mostra opzioni profilo o logout
-              showDialog(
-                context: context,
-                builder: (context) => AlertDialog(
-                  title: Text('Account'),
-                  content: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      ListTile(
-                        leading: Icon(Icons.person, color: virginRed),
-                        title: Text('My Profile'),
-                        onTap: () {
-                          Navigator.pop(context);
-                          // Naviga al profilo
-                        },
-                      ),
-                      Divider(),
-                      ListTile(
-                        leading: Icon(Icons.logout, color: virginRed),
-                        title: Text('Logout'),
-                        onTap: () {
-                          Navigator.pop(context);
-                          // Torna alla pagina di login
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(builder: (context) => LoginPage()),
-                          );
-                        },
-                      ),
-                    ],
-                  ),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(16),
-                  ),
-                ),
-              );
-            },
-          ),
-        ],
-      ),
       body: _pages[_selectedIndex],
       bottomNavigationBar: BottomAppBar(
         shape: CircularNotchedRectangle(),
@@ -165,32 +85,16 @@ class _HomePageState extends State<HomePage> {
           children: [
             IconButton(
               icon: Icon(Icons.menu, color: Colors.white),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => ActivityPage()),
-                );
-              },
+              onPressed: () => _onItemTapped(2),
             ),
             IconButton(
               icon: Icon(Icons.confirmation_number, color: Colors.white),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => TicketsPage()),
-                );
-              },
+              onPressed: () => _onItemTapped(3),
             ),
             SizedBox(width: 50), // Spazio per l'icona centrale Home
             IconButton(
               icon: Icon(Icons.groups, color: Colors.white),
-              onPressed: () {
-                // Navigazione alla pagina Community
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => CommunityPage()),
-                );
-              },
+              onPressed: () => _onItemTapped(1),
               tooltip: 'Community',
             ),
             IconButton(
@@ -204,10 +108,10 @@ class _HomePageState extends State<HomePage> {
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.white,
         onPressed: () => _onItemTapped(0),
-        child: Icon(Icons.home, color: virginRed, size: 30),
         shape: CircleBorder(),
         tooltip: 'Home',
         elevation: 4,
+        child: Icon(Icons.home, color: virginRed, size: 30),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
