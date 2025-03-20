@@ -108,9 +108,9 @@ class _TicketsPageState extends State<TicketsPage> with SingleTickerProviderStat
                   ),
                 ),
                 SizedBox(height: 15),
-                _buildFriendItem('Luca Verdi', 'assets/mostro2_profilo.png'),
-                _buildFriendItem('Sofia Russo', 'assets/mostro3_profilo.png'),
-                _buildFriendItem('Marco Bruno', 'assets/mostro4_profilo.png'),
+                _buildFriendItem('Luca Verdi', 'assets/mostro2_profilo.png', Colors.pink),
+                _buildFriendItem('Sofia Russo', 'assets/mostro3_profilo.png', Colors.lightBlue),
+                _buildFriendItem('Marco Bruno', 'assets/mostro4_profilo.png', Colors.yellow),
               ],
             ),
           ),
@@ -138,7 +138,7 @@ class _TicketsPageState extends State<TicketsPage> with SingleTickerProviderStat
     );
   }
 
-  Widget _buildFriendItem(String name, String imagePath) {
+  Widget _buildFriendItem(String name, String imagePath, Color color) {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 8.0),
       child: Row(
@@ -146,6 +146,7 @@ class _TicketsPageState extends State<TicketsPage> with SingleTickerProviderStat
           CircleAvatar(
             radius: 24,
             backgroundImage: AssetImage(imagePath),
+            backgroundColor: color,
           ),
           SizedBox(width: 15),
           Text(
@@ -166,7 +167,7 @@ class _TicketsPageState extends State<TicketsPage> with SingleTickerProviderStat
     );
   }
   
-  Widget _buildFriendAvatar(String imagePath) {
+  Widget _buildFriendAvatar(String imagePath, Color color) {
     return Container(
       width: 38,
       height: 38,
@@ -176,6 +177,7 @@ class _TicketsPageState extends State<TicketsPage> with SingleTickerProviderStat
       ),
       child: CircleAvatar(
         backgroundImage: AssetImage(imagePath),
+        backgroundColor: color,
       ),
     );
   }
@@ -334,10 +336,10 @@ class _TicketsPageState extends State<TicketsPage> with SingleTickerProviderStat
               if (ticket['type'] == 'travel')
                 Row(
                   children: [
-                    _buildFriendAvatar('assets/mostro4_profilo.png'),
+                    _buildFriendAvatar('assets/mostro4_profilo.png',Colors.yellow),
                     Transform.translate(
                       offset: Offset(-10, 0),
-                      child: _buildFriendAvatar('assets/mostro2_profilo.png'),
+                      child: _buildFriendAvatar('assets/mostro2_profilo.png',Colors.pink),
                     ),
                   ],
                 ),
@@ -710,7 +712,7 @@ class _TicketsPageState extends State<TicketsPage> with SingleTickerProviderStat
               ),
               Spacer(),
               // Avatar degli amici che partecipano all'evento
-              _buildFriendAvatar('assets/mostro3_profilo.png'),
+              _buildFriendAvatar('assets/mostro3_profilo.png',Colors.lightBlue),
             ],
           ),
         ),
