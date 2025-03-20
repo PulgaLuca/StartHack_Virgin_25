@@ -66,7 +66,7 @@ class _CommunityPageState extends State<CommunityPage> {
 
   @override
   Widget build(BuildContext context) {
-    double spentPercentage = spentPoints / totalPoints; // Percentage of points spent
+    // double spentPercentage = spentPoints / totalPoints; // Percentage of points spent
 
     return Scaffold(
       backgroundColor: Colors.grey[50], // Light grey background

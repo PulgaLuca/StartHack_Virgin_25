@@ -58,7 +58,9 @@ flutter:
     - assets/virgin_atlantic_logo.png
     - assets/virgin_active_logo.png
     - assets/virgin_radio_logo.png
+    - assets/virgin_radio_logo.png
     - assets/forest.jpg
+   
     
 
   # The following line ensures that the Material Icons font is
