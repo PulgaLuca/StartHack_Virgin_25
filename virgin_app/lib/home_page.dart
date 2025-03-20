@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:virgin_app/badges_page.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -13,7 +14,7 @@ class _HomePageState extends State<HomePage> {
     Center(child: Text('Add Friends')),
     Center(child: Text('Menu')),
     Center(child: Text('Community')),
-    Center(child: Text('Achievements')),
+    BadgesPage()
   ];
 
   void _onItemTapped(int index) {
@@ -25,10 +26,6 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Home'),
-        backgroundColor: Colors.red,
-      ),
       body: _pages[_selectedIndex],
 
       bottomNavigationBar: BottomAppBar(
