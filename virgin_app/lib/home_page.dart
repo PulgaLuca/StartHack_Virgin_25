@@ -1,10 +1,97 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 import 'activity_page.dart';
 import 'ticket_page.dart';
 import 'community_page.dart';
 import 'package:virgin_app/badges_page.dart';
+
+// Classe Avatar globale riutilizzabile in tutte le pagine
+class AvatarWidget extends StatelessWidget {
+  final String imagePath; 
+  final double size;
+  final VoidCallback? onTap;
+
+  const AvatarWidget({
+    Key? key,
+    this.imagePath = 'assets/profile_image.png', // Immagine di default dell'utente
+    this.size = 40,
+    this.onTap,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap ?? () {
+        // Mostra un menu o naviga al profilo
+        showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: Text('Il Tuo Profilo'),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Container(
+                  width: 80,
+                  height: 80,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Color(0xFF58D68D), // Sfondo verde
+                  ),
+                  child: ClipOval(
+                    child: Image.asset(
+                      imagePath,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+                SizedBox(height: 16),
+                Text(
+                  'Sarah Rossi',
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                SizedBox(height: 8),
+                Text('7,500 punti'),
+                SizedBox(height: 16),
+                ElevatedButton(
+                  onPressed: () => Navigator.pop(context),
+                  child: Text('Chiudi'),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Color(0xFFE50914),
+                    foregroundColor: Colors.white,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+      child: Container(
+        width: size,
+        height: size,
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          color: Color(0xFF58D68D), // Sfondo verde
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.1),
+              blurRadius: 4,
+              offset: Offset(0, 2),
+            ),
+          ],
+        ),
+        child: ClipOval(
+          child: Image.asset(
+            imagePath,
+            fit: BoxFit.cover,
+          ),
+        ),
+      ),
+    );
+  }
+}
 
 class HomePage extends StatefulWidget {
   @override
@@ -73,7 +160,6 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
       body: _pages[_selectedIndex],
       bottomNavigationBar: BottomAppBar(
         shape: CircularNotchedRectangle(),
@@ -234,471 +320,594 @@ class _HomeContentState extends State<HomeContent> {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // Banner di benvenuto migliorato
-          Container(
-            width: double.infinity,
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-                colors: [
-                  Color(0xFFD70417), // Rosso più scuro
-                  virginRed,
-                ],
-              ),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withOpacity(0.2),
-                  blurRadius: 8,
-                  offset: Offset(0, 3),
-                ),
-              ],
-            ),
-            child: Stack(
-              children: [
-                // Elementi di design (pattern a puntini sovrapposti)
-                Positioned(
-                  top: -5,
-                  right: -5,
-                  child: Container(
-                    width: 150,
-                    height: 150,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Colors.white.withOpacity(0.05),
-                    ),
-                  ),
-                ),
-                Positioned(
-                  bottom: -10,
-                  right: 100,
-                  child: Container(
-                    width: 100,
-                    height: 100,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Colors.white.withOpacity(0.07),
-                    ),
-                  ),
-                ),
-                // Contenuto principale
-                Padding(
-                  padding: EdgeInsets.fromLTRB(24, 60, 24, 20),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      // Testo di benvenuto con ombra (rimosso il cuoricino)
-                      Text(
-                        'Welcome Back,',
-                        style: TextStyle(
-                          fontSize: 22,
-                          fontWeight: FontWeight.w500,
-                          color: Colors.white.withOpacity(0.9),
-                          shadows: [
-                            Shadow(
-                              offset: Offset(0, 1),
-                              blurRadius: 3,
-                              color: Colors.black.withOpacity(0.3),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Text(
-                        userName + '!',
-                        style: TextStyle(
-                          fontSize: 36,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                          height: 1.1,
-                          shadows: [
-                            Shadow(
-                              offset: Offset(0, 1),
-                              blurRadius: 3,
-                              color: Colors.black.withOpacity(0.3),
-                            ),
-                          ],
-                        ),
-                      ),
-                      SizedBox(height: 10),
+    return Stack(
+      children: [
+        // Contenuto principale con padding in alto per compensare l'appbar
+        SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Banner di benvenuto migliorato
+              Container(
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: [
+                      Color(0xFFD70417), // Rosso più scuro
+                      virginRed,
                     ],
                   ),
-                ),
-              ],
-            ),
-          ),
-          
-          // Video su sfondo bianco (altezza aumentata)
-          Container(
-            color: Colors.white,
-            padding: EdgeInsets.symmetric(vertical: 20),
-            child: Center(
-              child: _isVideoInitialized
-                  ? Container(
-                      width: MediaQuery.of(context).size.width * 0.9,
-                      height: 340, // Aumentata l'altezza da 300 a 340
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(12),
-                        border: Border.all(color: Colors.grey[300]!, width: 1),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withOpacity(0.05),
-                            blurRadius: 10,
-                            offset: Offset(0, 4),
-                          ),
-                        ],
-                      ),
-                      clipBehavior: Clip.antiAlias,
-                      child: VideoPlayer(_videoController),
-                    )
-                  : Container(
-                      width: MediaQuery.of(context).size.width * 0.9,
-                      height: 340, // Aumentata l'altezza qui
-                      decoration: BoxDecoration(
-                        color: Colors.grey[200],
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: Center(
-                        child: CircularProgressIndicator(
-                          color: virginRed,
-                        ),
-                      ),
-                    ),
-            ),
-          ),
-          
-          // Section title - Reward Levels con punti e redeem SULLA STESSA RIGA
-          Padding(
-            padding: EdgeInsets.fromLTRB(16, 10, 16, 0), // Ridotto lo spazio superiore
-            child: Column(
-              children: [
-                // Titolo 
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'Reward Levels',
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.2),
+                      blurRadius: 8,
+                      offset: Offset(0, 3),
                     ),
                   ],
                 ),
-                
-                SizedBox(height: 6), // Ridotto lo spazio tra titolo e riga successiva
-                
-                // Riga con punti e pulsante redeem sullo stesso livello
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                child: Stack(
                   children: [
-                    // Contatore punti
-                    Container(
-                      padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                      decoration: BoxDecoration(
-                        color: virginRed.withOpacity(0.1),
-                        borderRadius: BorderRadius.circular(16),
-                      ),
-                      child: Row(
-                        children: [
-                          Icon(Icons.stars, color: Colors.amber, size: 18),
-                          SizedBox(width: 4),
-                          Text(
-                            '$userPoints points',
-                            style: TextStyle(
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold,
-                              color: virginRed,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    
-                    // Pulsante redeem (spazio ridotto)
-                    ElevatedButton.icon(
-                      onPressed: () {},
-                      icon: Icon(Icons.redeem, size: 18),
-                      label: Text('Redeem'),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: virginRed,
-                        foregroundColor: Colors.white,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-          
-          // Reward levels list (spazio ridotto)
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child: ListView.builder(
-              shrinkWrap: true,
-              physics: NeverScrollableScrollPhysics(),
-              padding: EdgeInsets.only(top: 8), // Ridotto lo spazio sopra la lista
-              itemCount: rewards.length,
-              itemBuilder: (context, index) {
-                final reward = rewards[index];
-                final bool isUnlocked = userPoints >= reward['points'];
-                
-                return Card(
-                  elevation: 2,
-                  margin: EdgeInsets.only(bottom: 8), // Ridotto lo spazio tra card
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(12),
-                      gradient: isUnlocked
-                          ? LinearGradient(
-                              begin: Alignment.centerLeft,
-                              end: Alignment.centerRight,
-                              colors: [Colors.white, Colors.white])
-                          : LinearGradient(
-                              begin: Alignment.centerLeft,
-                              end: Alignment.centerRight,
-                              colors: [Colors.grey[100]!, Colors.grey[100]!],
-                            ),
-                    ),
-                    child: ListTile(
-                      contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                      leading: Container(
-                        width: 50,
-                        height: 50,
+                    // Elementi di design (pattern a puntini sovrapposti)
+                    Positioned(
+                      top: -5,
+                      right: -5,
+                      child: Container(
+                        width: 150,
+                        height: 150,
                         decoration: BoxDecoration(
-                          color: isUnlocked
-                              ? virginRed.withOpacity(0.1)
-                              : Colors.grey[300],
                           shape: BoxShape.circle,
-                        ),
-                        child: Center(
-                          child: Icon(
-                            reward['icon'],
-                            color: isUnlocked ? virginRed : Colors.grey[500],
-                            size: 24,
-                          ),
+                          color: Colors.white.withOpacity(0.05),
                         ),
                       ),
-                      title: Text(
-                        reward['title'],
-                        style: TextStyle(
-                          fontSize: 30,
-                          fontWeight: FontWeight.bold,
-                          color: isUnlocked ? virginRed : Colors.grey[700],
+                    ),
+                    Positioned(
+                      bottom: -10,
+                      right: 100,
+                      child: Container(
+                        width: 100,
+                        height: 100,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Colors.white.withOpacity(0.07),
                         ),
                       ),
-                      subtitle: Text(
-                        reward['description'],
-                        style: TextStyle(
-                          color: isUnlocked ? Colors.grey[700] : Colors.grey[500],
-                        ),
-                      ),
-                      trailing: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.end,
+                    ),
+                    // Contenuto principale
+                    Padding(
+                      padding: EdgeInsets.fromLTRB(24, 60, 24, 20),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(
-                            '${reward['points']} pts',
-                            style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.bold,
-                              color: isUnlocked ? virginRed : Colors.grey[600],
-                            ),
+                          // Colonna del testo di benvenuto
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              // Testo di benvenuto con ombra
+                              Text(
+                                'Welcome Back,',
+                                style: TextStyle(
+                                  fontSize: 22,
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.white.withOpacity(0.9),
+                                  shadows: [
+                                    Shadow(
+                                      offset: Offset(0, 1),
+                                      blurRadius: 3,
+                                      color: Colors.black.withOpacity(0.3),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Text(
+                                userName + '!',
+                                style: TextStyle(
+                                  fontSize: 36,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white,
+                                  height: 1.1,
+                                  shadows: [
+                                    Shadow(
+                                      offset: Offset(0, 1),
+                                      blurRadius: 3,
+                                      color: Colors.black.withOpacity(0.3),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              SizedBox(height: 10),
+                            ],
                           ),
-                          SizedBox(height: 4),
-                          Icon(
-                            isUnlocked ? Icons.check_circle : Icons.lock,
-                            color: isUnlocked ? Colors.green : Colors.grey[400],
-                            size: 20,
+                          
+                          // Avatar in alto a destra - AGGIUNTO QUI
+                          Padding(
+                            padding: EdgeInsets.only(top: 5),
+                            child: AvatarWidget(
+                              imagePath: 'assets/mostro2_profilo.png',
+                              size: 50,
+                            ),
                           ),
                         ],
                       ),
                     ),
-                  ),
-                );
-              },
-            ),
-          ),
-          
-          // Section title - Your Impact Activity (spazio ridotto)
-          Padding(
-            padding: const EdgeInsets.fromLTRB(16, 10, 16, 0), // Ridotto lo spazio
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  'Your Impact Activity',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                  ),
+                  ],
                 ),
-                TextButton(
-                  onPressed: () {},
-                  child: Text(
-                    'View All',
-                    style: TextStyle(
-                      color: virginRed,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          
-          // Recent activity list (spazio ridotto) CON COLORI MISTI
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child: ListView.builder(
-              shrinkWrap: true,
-              physics: NeverScrollableScrollPhysics(),
-              padding: EdgeInsets.only(top: 4), // Ridotto lo spazio in alto
-              itemCount: activityImpact.length,
-              itemBuilder: (context, index) {
-                final activity = activityImpact[index];
-                
-                final Color impactColor = Colors.green[700]!;
-
-                
-                return Card(
-                  elevation: 2,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  margin: EdgeInsets.only(bottom: 8), // Ridotto lo spazio tra card
-                  child: Column(
-                    children: [
-                      // Prima parte: l'attività con logo Virgin - ROSSA
-                      ListTile(
-                        leading: Container(
-                          width: 46,
-                          height: 46,
+              ),
+              
+              // Video su sfondo bianco (altezza aumentata)
+              Container(
+                color: Colors.white,
+                padding: EdgeInsets.symmetric(vertical: 20),
+                child: Center(
+                  child: _isVideoInitialized
+                      ? Container(
+                          width: MediaQuery.of(context).size.width * 0.9,
+                          height: 340, // Aumentata l'altezza da 300 a 340
                           decoration: BoxDecoration(
-                            color: Colors.white,
-                            shape: BoxShape.circle,
-                            border: Border.all(color: Colors.grey[200]!, width: 1),
+                            borderRadius: BorderRadius.circular(12),
+                            border: Border.all(color: Colors.grey[300]!, width: 1),
                             boxShadow: [
                               BoxShadow(
                                 color: Colors.black.withOpacity(0.05),
-                                blurRadius: 4,
-                                offset: Offset(0, 2),
+                                blurRadius: 10,
+                                offset: Offset(0, 4),
                               ),
                             ],
                           ),
-                          padding: EdgeInsets.all(8),
-                          child: Image.asset(
-                            activity['logoPath'],
-                            fit: BoxFit.contain,
+                          clipBehavior: Clip.antiAlias,
+                          child: VideoPlayer(_videoController),
+                        )
+                      : Container(
+                          width: MediaQuery.of(context).size.width * 0.9,
+                          height: 340, // Aumentata l'altezza qui
+                          decoration: BoxDecoration(
+                            color: Colors.grey[200],
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: Center(
+                            child: CircularProgressIndicator(
+                              color: virginRed,
+                            ),
                           ),
                         ),
-                        title: Text(activity['activity']),
-                        subtitle: Text(activity['detail']),
-                        trailing: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            Text(
-                              activity['daysAgo'],
-                              style: TextStyle(
-                                fontSize: 12,
-                                color: Colors.grey[600],
+                ),
+              ),
+              
+              // Section title - Reward Levels con punti e redeem SULLA STESSA RIGA
+              Padding(
+                padding: EdgeInsets.fromLTRB(16, 10, 16, 0), // Ridotto lo spazio superiore
+                child: Column(
+                  children: [
+                    // Titolo 
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Reward Levels',
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
+                    
+                    SizedBox(height: 6), // Ridotto lo spazio tra titolo e riga successiva
+                    
+                    // Riga con punti e pulsante redeem sullo stesso livello
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        // Contatore punti
+                        Container(
+                          padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                          decoration: BoxDecoration(
+                            color: virginRed.withOpacity(0.1),
+                            borderRadius: BorderRadius.circular(16),
+                          ),
+                          child: Row(
+                            children: [
+                              Icon(Icons.stars, color: Colors.amber, size: 18),
+                              SizedBox(width: 4),
+                              Text(
+                                '$userPoints points',
+                                style: TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.bold,
+                                  color: virginRed,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        
+                        // Pulsante redeem (spazio ridotto)
+                        ElevatedButton.icon(
+                          onPressed: () {},
+                          icon: Icon(Icons.redeem, size: 18),
+                          label: Text('Redeem'),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: virginRed,
+                            foregroundColor: Colors.white,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              
+              // Reward levels list (spazio ridotto)
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: ListView.builder(
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
+                  padding: EdgeInsets.only(top: 8), // Ridotto lo spazio sopra la lista
+                  itemCount: rewards.length,
+                  itemBuilder: (context, index) {
+                    final reward = rewards[index];
+                    final bool isUnlocked = userPoints >= reward['points'];
+                    
+                    return Card(
+                      elevation: 2,
+                      margin: EdgeInsets.only(bottom: 8), // Ridotto lo spazio tra card
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(12),
+                          gradient: isUnlocked
+                              ? LinearGradient(
+                                  begin: Alignment.centerLeft,
+                                  end: Alignment.centerRight,
+                                  colors: [Colors.white, Colors.white])
+                              : LinearGradient(
+                                  begin: Alignment.centerLeft,
+                                  end: Alignment.centerRight,
+                                  colors: [Colors.grey[100]!, Colors.grey[100]!],
+                                ),
+                        ),
+                        child: ListTile(
+                          contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                          leading: Container(
+                            width: 50,
+                            height: 50,
+                            decoration: BoxDecoration(
+                              color: isUnlocked
+                                  ? virginRed.withOpacity(0.1)
+                                  : Colors.grey[300],
+                              shape: BoxShape.circle,
+                            ),
+                            child: Center(
+                              child: Icon(
+                                reward['icon'],
+                                color: isUnlocked ? virginRed : Colors.grey[500],
+                                size: 24,
                               ),
                             ),
-                            SizedBox(height: 4),
-                            Text(
-                              activity['points'],
-                              style: TextStyle(
-                                color: Colors.green,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 13,
-                              ),
+                          ),
+                          title: Text(
+                            reward['title'],
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              color: isUnlocked ? Colors.black87 : Colors.grey[700],
                             ),
-                          ],
+                          ),
+                          subtitle: Text(
+                            reward['description'],
+                            style: TextStyle(
+                              color: isUnlocked ? Colors.grey[700] : Colors.grey[500],
+                            ),
+                          ),
+                          trailing: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              Text(
+                                '${reward['points']} pts',
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.bold,
+                                  color: isUnlocked ? virginRed : Colors.grey[600],
+                                ),
+                              ),
+                              SizedBox(height: 4),
+                              Icon(
+                                isUnlocked ? Icons.check_circle : Icons.lock,
+                                color: isUnlocked ? Colors.green : Colors.grey[400],
+                                size: 20,
+                              ),
+                            ],
+                          ),
                         ),
                       ),
-                      // Seconda parte: l'impatto positivo - VERDE PER GLI IMPACTì
-                      Container(
-                        decoration: BoxDecoration(
-                          color: impactColor.withOpacity(0.08), // Colore trasparente in base al tipo
-                          borderRadius: BorderRadius.only(
-                            bottomLeft: Radius.circular(12),
-                            bottomRight: Radius.circular(12),
-                          ),
+                    );
+                  },
+                ),
+              ),
+              
+              // Section title - Your Impact Activity (spazio ridotto)
+              Padding(
+                padding: const EdgeInsets.fromLTRB(16, 10, 16, 0), // Ridotto lo spazio
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Your Impact Activity',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    TextButton(
+                      onPressed: () {},
+                      child: Text(
+                        'View All',
+                        style: TextStyle(
+                          color: virginRed,
+                          fontWeight: FontWeight.w500,
                         ),
-                        padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                        child: Row(
-                          children: [
-                            CircleAvatar(
-                              radius: 16,
-                              backgroundColor: impactColor.withOpacity(0.15), // Cerchio del colore appropriato
-                              child: Icon(
-                                activity['impactIcon'],
-                                size: 18,
-                                color: impactColor, // Icona del colore appropriato
-                              ),
-                            ),
-                            SizedBox(width: 12),
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    activity['impactTitle'],
-                                    style: TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.bold,
-                                      color: impactColor.withOpacity(0.9), // Titolo del colore appropriato
-                                    ),
-                                  ),
-                                  SizedBox(height: 2),
-                                  Text(
-                                    activity['impactDescription'],
-                                    style: TextStyle(
-                                      fontSize: 12,
-                                      color: Colors.grey[700],
-                                    ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              
+              // Recent activity list (spazio ridotto) CON COLORI MISTI
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: ListView.builder(
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
+                  padding: EdgeInsets.only(top: 4), // Ridotto lo spazio in alto
+                  itemCount: activityImpact.length,
+                  itemBuilder: (context, index) {
+                    final activity = activityImpact[index];
+                    
+                    final Color impactColor = Colors.green[700]!;
+
+                    
+                    return Card(
+                      elevation: 2,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      margin: EdgeInsets.only(bottom: 8), // Ridotto lo spazio tra card
+                      child: Column(
+                        children: [
+                          // Prima parte: l'attività con logo Virgin - ROSSA
+                          ListTile(
+                            leading: Container(
+                              width: 46,
+                              height: 46,
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                shape: BoxShape.circle,
+                                border: Border.all(color: Colors.grey[200]!, width: 1),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black.withOpacity(0.05),
+                                    blurRadius: 4,
+                                    offset: Offset(0, 2),
                                   ),
                                 ],
                               ),
-                            ),
-                            Container(
-                              padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                              decoration: BoxDecoration(
-                                color: impactColor.withOpacity(0.1), // Badge del colore appropriato
-                                borderRadius: BorderRadius.circular(8),
+                              padding: EdgeInsets.all(8),
+                              child: Image.asset(
+                                activity['logoPath'],
+                                fit: BoxFit.contain,
                               ),
-                              child: Text(
-                                activity['impactValue'],
-                                style: TextStyle(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.bold,
-                                  color: impactColor.withOpacity(0.9), // Testo del colore appropriato
+                            ),
+                            title: Text(activity['activity']),
+                            subtitle: Text(activity['detail']),
+                            trailing: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: [
+                                Text(
+                                  activity['daysAgo'],
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    color: Colors.grey[600],
+                                  ),
                                 ),
+                                SizedBox(height: 4),
+                                Text(
+                                  activity['points'],
+                                  style: TextStyle(
+                                    color: Colors.green,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 13,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          // Seconda parte: l'impatto positivo - VERDE PER GLI IMPACTì
+                          Container(
+                            decoration: BoxDecoration(
+                              color: impactColor.withOpacity(0.08), // Colore trasparente in base al tipo
+                              borderRadius: BorderRadius.only(
+                                bottomLeft: Radius.circular(12),
+                                bottomRight: Radius.circular(12),
                               ),
                             ),
-                          ],
-                        ),
+                            padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                            child: Row(
+                              children: [
+                                CircleAvatar(
+                                  radius: 16,
+                                  backgroundColor: impactColor.withOpacity(0.15), // Cerchio del colore appropriato
+                                  child: Icon(
+                                    activity['impactIcon'],
+                                    size: 18,
+                                    color: impactColor, // Icona del colore appropriato
+                                  ),
+                                ),
+                                SizedBox(width: 12),
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        activity['impactTitle'],
+                                        style: TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.bold,
+                                          color: impactColor.withOpacity(0.9), // Titolo del colore appropriato
+                                        ),
+                                      ),
+                                      SizedBox(height: 2),
+                                      Text(
+                                        activity['impactDescription'],
+                                        style: TextStyle(
+                                          fontSize: 12,
+                                          color: Colors.grey[700],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Container(
+                                  padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                                  decoration: BoxDecoration(
+                                    color: impactColor.withOpacity(0.1), // Badge del colore appropriato
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  child: Text(
+                                    activity['impactValue'],
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.bold,
+                                      color: impactColor.withOpacity(0.9), // Testo del colore appropriato
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
-                );
-              },
+                    );
+                  },
+                ),
+              ),
+              
+              SizedBox(height: 16),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+// ESTENSIONE DELLE ALTRE PAGINE CON AVATAR
+// Estendi ActivityPage con avatar
+class ActivityPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Activities'),
+        backgroundColor: Color(0xFFE50914),
+        actions: [
+          // Avatar in alto a destra
+          Padding(
+            padding: EdgeInsets.only(right: 16),
+            child: AvatarWidget(
+              imagePath: 'assets/mostro2_profilo.png',
             ),
           ),
-          
-          SizedBox(height: 16),
         ],
+      ),
+      body: Center(
+        child: Text('Activities Content'),
+      ),
+    );
+  }
+}
+
+// Estendi CommunityPage con avatar
+class CommunityPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Community'),
+        backgroundColor: Color(0xFFE50914),
+        actions: [
+          // Avatar in alto a destra
+          Padding(
+            padding: EdgeInsets.only(right: 16),
+            child: AvatarWidget(
+              imagePath: 'assets/mostro2_profilo.png',
+            ),
+          ),
+        ],
+      ),
+      body: Center(
+        child: Text('Community Content'),
+      ),
+    );
+  }
+}
+
+// Estendi TicketsPage con avatar
+class TicketsPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Your Tickets'),
+        backgroundColor: Color(0xFFE50914),
+        centerTitle: true,
+        actions: [
+          // Avatar in alto a destra
+          Padding(
+            padding: EdgeInsets.only(right: 16),
+            child: AvatarWidget(
+              imagePath: 'assets/mostro2_profilo.png',
+            ),
+          ),
+        ],
+      ),
+      body: Center(
+        child: Text('Tickets Content'),
+      ),
+    );
+  }
+}
+
+// Estendi BadgesPage con avatar
+class BadgesPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Badges'),
+        backgroundColor: Color(0xFFE50914),
+        actions: [
+          // Avatar in alto a destra
+          Padding(
+            padding: EdgeInsets.only(right: 16),
+            child: AvatarWidget(
+              imagePath: 'assets/mostro2_profilo.png',
+            ),
+          ),
+        ],
+      ),
+      body: Center(
+        child: Text('Badges Content'),
       ),
     );
   }

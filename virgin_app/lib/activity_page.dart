@@ -1,7 +1,95 @@
 import 'package:flutter/material.dart';
 import 'airplane_booking_page.dart';
 
-// Pagine di prenotazione con design migliorato
+// Widget Avatar riutilizzabile
+class AvatarWidget extends StatelessWidget {
+  final String imagePath; 
+  final double size;
+  final VoidCallback? onTap;
+
+  const AvatarWidget({
+    Key? key,
+    this.imagePath = 'assets/profile_image.png',
+    this.size = 40,
+    this.onTap,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap ?? () {
+        // Mostra un menu o naviga al profilo
+        showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: Text('Il Tuo Profilo'),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Container(
+                  width: 80,
+                  height: 80,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Color(0xFF58D68D), // Sfondo verde
+                  ),
+                  child: ClipOval(
+                    child: Image.asset(
+                      imagePath,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+                SizedBox(height: 16),
+                Text(
+                  'Sarah Rossi',
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                SizedBox(height: 8),
+                Text('7,500 punti'),
+                SizedBox(height: 16),
+                ElevatedButton(
+                  onPressed: () => Navigator.pop(context),
+                  child: Text('Chiudi'),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Color(0xFFE50914),
+                    foregroundColor: Colors.white,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+      child: Container(
+        width: size,
+        height: size,
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          color: Color(0xFF58D68D), // Sfondo verde
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.1),
+              blurRadius: 4,
+              offset: Offset(0, 2),
+            ),
+          ],
+        ),
+        child: ClipOval(
+          child: Image.asset(
+            imagePath,
+            fit: BoxFit.cover,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+// Pagine di prenotazione con design migliorato e avatar
 class TrainBookingPage extends StatelessWidget {
   final Color virginRed = Color(0xFFE50914);
   
@@ -23,6 +111,16 @@ class TrainBookingPage extends StatelessWidget {
         iconTheme: IconThemeData(
           color: Colors.white,
         ),
+        actions: [
+          // Avatar in alto a destra
+          Padding(
+            padding: EdgeInsets.only(right: 16),
+            child: AvatarWidget(
+              imagePath: 'assets/mostro2_profilo.png',
+              size: 40,
+            ),
+          ),
+        ],
       ),
       body: Center(
         child: Column(
@@ -86,6 +184,16 @@ class GymPage extends StatelessWidget {
         iconTheme: IconThemeData(
           color: Colors.white,
         ),
+        actions: [
+          // Avatar in alto a destra
+          Padding(
+            padding: EdgeInsets.only(right: 16),
+            child: AvatarWidget(
+              imagePath: 'assets/mostro2_profilo.png',
+              size: 40,
+            ),
+          ),
+        ],
       ),
       body: Center(
         child: Column(
@@ -149,6 +257,16 @@ class MoviePage extends StatelessWidget {
         iconTheme: IconThemeData(
           color: Colors.white,
         ),
+        actions: [
+          // Avatar in alto a destra
+          Padding(
+            padding: EdgeInsets.only(right: 16),
+            child: AvatarWidget(
+              imagePath: 'assets/mostro2_profilo.png',
+              size: 40,
+            ),
+          ),
+        ],
       ),
       body: Center(
         child: Column(
@@ -216,10 +334,20 @@ class _ActivityPageState extends State<ActivityPage> {
         ),
         backgroundColor: virginRed,
         elevation: 2,
-        centerTitle: true, // Modificato da false a true per centrare il titolo
+        centerTitle: true,
         iconTheme: IconThemeData(
           color: Colors.white,
         ),
+        actions: [
+          // Avatar in alto a destra
+          Padding(
+            padding: EdgeInsets.only(right: 16),
+            child: AvatarWidget(
+              imagePath: 'assets/mostro2_profilo.png',
+              size: 40,
+            ),
+          ),
+        ],
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -542,6 +670,32 @@ class _ActivityPageState extends State<ActivityPage> {
             ),
           ),
         ),
+      ),
+    );
+  }
+}
+
+// Presupponendo che questa classe esista
+class AirplaneBookingPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Flight Booking'),
+        backgroundColor: Color(0xFFE50914),
+        actions: [
+          // Avatar in alto a destra
+          Padding(
+            padding: EdgeInsets.only(right: 16),
+            child: AvatarWidget(
+              imagePath: 'assets/mostro2_profilo.png',
+              size: 40,
+            ),
+          ),
+        ],
+      ),
+      body: Center(
+        child: Text('Flight Booking Content'),
       ),
     );
   }
