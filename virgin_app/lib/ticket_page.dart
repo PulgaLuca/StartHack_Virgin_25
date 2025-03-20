@@ -40,7 +40,7 @@ class _TicketsPageState extends State<TicketsPage> with SingleTickerProviderStat
       'logoPath': 'assets/virgin_active_logo.png',
       'company': 'Virgin Active',
       'membershipType': 'Premium Subscription',
-      'memberName': 'Mario Rossi',
+      'memberName': 'Sarah Rossi',
       'memberLevel': 'VIP'
     },
     {
