@@ -30,12 +30,12 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  flutter_barcode_scanner: ^2.0.0  # Aggiungi questa riga
 
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.8
+  mobile_scanner: ^6.0.7
 
 dev_dependencies:
   flutter_test:
@@ -55,6 +55,8 @@ dev_dependencies:
 flutter:
   assets:
     - assets/logo.png
+    - assets/badge_1.png
+    - assets/badge_2.png
     - assets/virgin_atlantic_logo.png
     - assets/virgin_active_logo.png
     - assets/virgin_radio_logo.png
