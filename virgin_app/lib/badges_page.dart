@@ -9,18 +9,29 @@ class BadgesPage extends StatelessWidget {
         title: Text('Badges'),
         backgroundColor: Colors.red,
       ),
-      body: Center(
-        child: ElevatedButton(
-          child: Text('Scan QR Code'),
-          onPressed: () => Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (context) => QrCodeScanner(),
+      body: SafeArea(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.end, // Pushes button to the bottom
+          children: [
+            Align(
+              alignment: Alignment.center, // Centers the button horizontally
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: 60.0), // Space from bottom
+                child: ElevatedButton(
+                  child: Text('Scan QR Code'),
+                  onPressed: () => Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => QrCodeScanner(),
+                    ),
+                  ),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.red,
+                    padding: EdgeInsets.symmetric(horizontal: 50, vertical: 15),
+                  ),
+                ),
+              ),
             ),
-          ),
-          style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.red,
-            padding: EdgeInsets.symmetric(horizontal: 50, vertical: 15),
-          ),
+          ],
         ),
       ),
     );
