@@ -772,31 +772,6 @@ class _TicketsPageState extends State<TicketsPage> with SingleTickerProviderStat
     );
   }
 
-  // Metodo per gestire la navigazione
-  void _onItemTapped(int index) {
-    // Naviga alle diverse pagine in base all'indice
-    if (index == 0) {
-      // Home
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => HomePage()),
-      );
-    } else if (index == 1) {
-      // Activity
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => ActivityPage()),
-      );
-    } else if (index == 2) {
-      // Community
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => CommunityPage()),
-      );
-    }
-    // Altre opzioni di navigazione possono essere aggiunte qui
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -855,50 +830,6 @@ class _TicketsPageState extends State<TicketsPage> with SingleTickerProviderStat
             ),
           ),
         ],
-      ),
-      // FAB per tornare alla home (ora bianco con icona rossa)
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => _onItemTapped(0),
-        backgroundColor: Colors.white,
-        child: Icon(Icons.home, color: virginRed, size: 30),
-        heroTag: "home", // Per evitare conflitti con altri FAB
-        elevation: 4,
-        shape: CircleBorder(),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      // Bottom navigation bar
-      bottomNavigationBar: BottomAppBar(
-        shape: CircularNotchedRectangle(),
-        color: virginRed,
-        clipBehavior: Clip.antiAlias,
-        notchMargin: 8,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            IconButton(
-              icon: Icon(Icons.menu, color: Colors.white),
-              onPressed: () => _onItemTapped(1), // Activity page
-              tooltip: 'Activity',
-            ),
-            // Current page (Tickets) - highlighted
-            IconButton(
-              icon: Icon(Icons.confirmation_number, color: Colors.white),
-              onPressed: () {}, // Già nella pagina Tickets
-              tooltip: 'Tickets',
-            ),
-            SizedBox(width: 50), // Spazio per il FAB
-            IconButton(
-              icon: Icon(Icons.groups, color: Colors.white),
-              onPressed: () => _onItemTapped(2), // Navigazione alla Community page
-              tooltip: 'Community',
-            ),
-            IconButton(
-              icon: Icon(Icons.military_tech, color: Colors.white),
-              onPressed: () {}, // Implementare navigazione alla pagina Achievements
-              tooltip: 'Achievements',
-            ),
-          ],
-        ),
       ),
     );
   }
