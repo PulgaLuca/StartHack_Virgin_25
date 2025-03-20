@@ -492,9 +492,9 @@ class _HomeContentState extends State<HomeContent> {
                       title: Text(
                         reward['title'],
                         style: TextStyle(
-                          fontSize: 16,
+                          fontSize: 30,
                           fontWeight: FontWeight.bold,
-                          color: isUnlocked ? Colors.black87 : Colors.grey[700],
+                          color: isUnlocked ? virginRed : Colors.grey[700],
                         ),
                       ),
                       subtitle: Text(
