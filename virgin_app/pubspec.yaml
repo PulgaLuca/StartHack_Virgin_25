@@ -56,7 +56,17 @@ flutter:
   assets:
     - assets/logo.png
     - assets/badge_1.png
+    - assets/badge_1_taken.png
     - assets/badge_2.png
+    - assets/badge_2_taken.png
+    - assets/badge_3.png
+    - assets/badge_3_taken.png
+    - assets/badge_4.png
+    - assets/badge_4_taken.png
+    - assets/badge_5.png
+    - assets/badge_5_taken.png
+    - assets/badge_6.png
+    - assets/badge_6_taken.png
     - assets/virgin_atlantic_logo.png
     - assets/virgin_active_logo.png
     - assets/virgin_hotels_logo.png
