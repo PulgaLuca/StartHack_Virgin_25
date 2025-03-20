@@ -8,13 +8,12 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
 
-  // List of widgets for different pages
   final List<Widget> _pages = [
     Center(child: Text('Home Page Content')),
-    Center(child: Text('Search Page')),
-    Center(child: Text('Profile Page')),
-    Center(child: Text('Notifications')),
-    Center(child: Text('Settings')),
+    Center(child: Text('Add Friends')),
+    Center(child: Text('Menu')),
+    Center(child: Text('Community')),
+    Center(child: Text('Achievements')),
   ];
 
   void _onItemTapped(int index) {
@@ -30,23 +29,43 @@ class _HomePageState extends State<HomePage> {
         title: Text('Home'),
         backgroundColor: Colors.red,
       ),
-      body: Center(
-        child: _pages[_selectedIndex],
+      body: _pages[_selectedIndex],
+
+      bottomNavigationBar: BottomAppBar(
+        shape: CircularNotchedRectangle(),
+        color: Colors.red,
+        clipBehavior: Clip.antiAlias,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            IconButton(
+              icon: Icon(Icons.person_add, color: Colors.white), // Aggiunta amici
+              onPressed: () => _onItemTapped(1),
+            ),
+            IconButton(
+              icon: Icon(Icons.menu, color: Colors.white), // Menu
+              onPressed: () => _onItemTapped(2),
+            ),
+            SizedBox(width: 50), // Spazio per il FloatingActionButton
+            IconButton(
+              icon: Icon(Icons.groups, color: Colors.white), // Community
+              onPressed: () => _onItemTapped(3),
+            ),
+            IconButton(
+              icon: Icon(Icons.military_tech, color: Colors.white), // Medaglia
+              onPressed: () => _onItemTapped(4),
+            ),
+          ],
+        ),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed, // Ensures all icons are visible
-        items: [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-          BottomNavigationBarItem(icon: Icon(Icons.search), label: 'Search'),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
-          BottomNavigationBarItem(icon: Icon(Icons.notifications), label: 'Notifications'),
-          BottomNavigationBarItem(icon: Icon(Icons.settings), label: 'Settings'),
-        ],
-        currentIndex: _selectedIndex,
-        selectedItemColor: Colors.red,
-        unselectedItemColor: Colors.grey,
-        onTap: _onItemTapped,
+
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.white,
+        onPressed: () => _onItemTapped(0),
+        child: Icon(Icons.home, color: Colors.red, size: 30),
+        shape: CircleBorder(),
       ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
   }
 }
