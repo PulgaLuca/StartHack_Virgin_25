@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'activity_page.dart';
 import 'ticket_page.dart';
@@ -457,6 +458,7 @@ class HomeContent extends StatelessWidget {
                             },
                             child: Text('View Ticket'),
                             style: ElevatedButton.styleFrom(
+                              foregroundColor: Colors.white,
                               backgroundColor: virginRed,
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10),
