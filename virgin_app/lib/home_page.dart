@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'activity_page.dart'; // Importa il file activity_page.dart
+import 'ticket_page.dart'; // Assicurati che questo file esista e contenga la classe TicketsPage
 
 class HomePage extends StatefulWidget {
   @override
@@ -10,10 +12,7 @@ class _HomePageState extends State<HomePage> {
 
   final List<Widget> _pages = [
     Center(child: Text('Home Page Content')),
-    Center(child: Text('Add Friends')),
-    Center(child: Text('Menu')),
-    Center(child: Text('Community')),
-    Center(child: Text('Achievements')),
+    // Puoi aggiungere altre pagine se vuoi
   ];
 
   void _onItemTapped(int index) {
@@ -30,35 +29,43 @@ class _HomePageState extends State<HomePage> {
         backgroundColor: Colors.red,
       ),
       body: _pages[_selectedIndex],
-
       bottomNavigationBar: BottomAppBar(
         shape: CircularNotchedRectangle(),
         color: Colors.red,
         clipBehavior: Clip.antiAlias,
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          mainAxisAlignment: MainAxisAlignment.spaceAround, // Spazio uniforme tra le icone
           children: [
             IconButton(
-              icon: Icon(Icons.person_add, color: Colors.white), // Aggiunta amici
-              onPressed: () => _onItemTapped(1),
+              icon: Icon(Icons.menu, color: Colors.white), // Menu (Activity)
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => ActivityPage()), // Naviga alla ActivityPage
+                );
+              },
             ),
             IconButton(
-              icon: Icon(Icons.menu, color: Colors.white), // Menu
-              onPressed: () => _onItemTapped(2),
+              icon: Icon(Icons.confirmation_number, color: Colors.white), // Biglietto
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => TicketsPage()), // Naviga alla TicketsPage
+                );
+              },
             ),
-            SizedBox(width: 50), // Spazio per il FloatingActionButton
+            SizedBox(width: 50), // Spazio per l'icona centrale Home
             IconButton(
               icon: Icon(Icons.groups, color: Colors.white), // Community
-              onPressed: () => _onItemTapped(3),
+              onPressed: () => _onItemTapped(2),
             ),
             IconButton(
               icon: Icon(Icons.military_tech, color: Colors.white), // Medaglia
-              onPressed: () => _onItemTapped(4),
+              onPressed: () => _onItemTapped(3),
             ),
           ],
         ),
       ),
-
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.white,
         onPressed: () => _onItemTapped(0),
