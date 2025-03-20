@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'activity_page.dart';
 import 'home_page.dart';
+import 'community_page.dart';
 
 class TicketsPage extends StatefulWidget {
   @override
@@ -786,6 +787,12 @@ class _TicketsPageState extends State<TicketsPage> with SingleTickerProviderStat
         context,
         MaterialPageRoute(builder: (context) => ActivityPage()),
       );
+    } else if (index == 2) {
+      // Community
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => CommunityPage()),
+      );
     }
     // Altre opzioni di navigazione possono essere aggiunte qui
   }
@@ -815,29 +822,48 @@ class _TicketsPageState extends State<TicketsPage> with SingleTickerProviderStat
         automaticallyImplyLeading: true,
       ),
       // Il corpo dell'app con lo stack dei biglietti
-      body: Container(
-        color: Colors.grey[100],
-        child: Column(
-          children: [
-            Expanded(
-              child: Stack(
-                alignment: Alignment.topCenter,
-                clipBehavior: Clip.none,
-                children: List.generate(tickets.length, (index) {
-                  return _buildCard(index, tickets[index]);
-                }),
-              ),
+      body: Stack(
+        children: [
+          // Stack dei ticket
+          Container(
+            color: Colors.grey[100],
+            child: Column(
+              children: [
+                Expanded(
+                  child: Stack(
+                    alignment: Alignment.topCenter,
+                    clipBehavior: Clip.none,
+                    children: List.generate(tickets.length, (index) {
+                      return _buildCard(index, tickets[index]);
+                    }),
+                  ),
+                ),
+              ],
             ),
-          ],
-        ),
+          ),
+          
+          // Pulsante + sul lato destro
+          Positioned(
+            right: 20,
+            bottom: 100, // Posizionato sopra il bottomNavigationBar
+            child: FloatingActionButton(
+              onPressed: () {},
+              backgroundColor: virginRed,
+              child: Icon(Icons.add, color: Colors.white),
+              heroTag: "addTicket", // Per evitare conflitti con altri FAB
+              tooltip: 'Add Ticket',
+            ),
+          ),
+        ],
       ),
-      // FAB per aggiungere nuovi ticket
+      // FAB per tornare alla home (ora bianco con icona rossa)
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        backgroundColor: virginRed,
-        child: Icon(Icons.add, color: Colors.white),
+        onPressed: () => _onItemTapped(0),
+        backgroundColor: Colors.white,
+        child: Icon(Icons.home, color: virginRed, size: 30),
+        heroTag: "home", // Per evitare conflitti con altri FAB
         elevation: 4,
-        shape: CircleBorder(), // Assicura che sia perfettamente circolare
+        shape: CircleBorder(),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       // Bottom navigation bar
@@ -863,7 +889,7 @@ class _TicketsPageState extends State<TicketsPage> with SingleTickerProviderStat
             SizedBox(width: 50), // Spazio per il FAB
             IconButton(
               icon: Icon(Icons.groups, color: Colors.white),
-              onPressed: () {}, // Implementare navigazione alla pagina Community
+              onPressed: () => _onItemTapped(2), // Navigazione alla Community page
               tooltip: 'Community',
             ),
             IconButton(

@@ -104,9 +104,18 @@ class _AirplaneBookingPageState extends State<AirplaneBookingPage> {
   final List<Map<String, dynamic>> flights = [
     {
       'from': 'Milan (MXP)',
-      'to': 'London (LHR)',
-      'date': '15 Apr 2023',
+      'to': 'Zurich (ZRH)',
+      'date': '15 Apr 2025',
       'time': '10:00 AM',
+      'duration': '1h 05m',
+      'price': '€149.99',
+      'airline': 'Virgin Atlantic',
+    },
+    {
+      'from': 'Milan (MXP)',
+      'to': 'London (LHR)',
+      'date': '18 Apr 2025',
+      'time': '02:30 PM',
       'duration': '2h 15m',
       'price': '€189.99',
       'airline': 'Virgin Atlantic',
@@ -114,18 +123,9 @@ class _AirplaneBookingPageState extends State<AirplaneBookingPage> {
     {
       'from': 'Milan (MXP)',
       'to': 'New York (JFK)',
-      'date': '18 Apr 2023',
-      'time': '02:30 PM',
-      'duration': '8h 45m',
-      'price': '€459.99',
-      'airline': 'Virgin Atlantic',
-    },
-    {
-      'from': 'Milan (MXP)',
-      'to': 'Miami (MIA)',
-      'date': '22 Apr 2023',
+      'date': '22 Apr 2025',
       'time': '08:15 AM',
-      'duration': '10h 20m',
+      'duration': '8h 45m',
       'price': '€529.99',
       'airline': 'Virgin Atlantic',
     },
@@ -135,7 +135,8 @@ class _AirplaneBookingPageState extends State<AirplaneBookingPage> {
   void initState() {
     super.initState();
     _fromController.text = 'Milan (MXP)';
-    _dateController.text = 'Apr 15, 2023';
+    _toController.text = 'Zurich (ZRH)';
+    _dateController.text = 'Apr 15, 2025';
   }
   
   @override
