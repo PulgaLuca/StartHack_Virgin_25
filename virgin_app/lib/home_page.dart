@@ -3,6 +3,8 @@ import 'activity_page.dart';
 import 'ticket_page.dart';
 import 'login_page.dart';
 import 'community_page.dart'; // Importa la pagina community
+import 'login_page.dart'; // Importa la pagina di login
+import 'package:virgin_app/badges_page.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -59,8 +61,9 @@ class _HomePageState extends State<HomePage> {
   final List<Widget> _pages = [
     HomeContent(), // Una classe separata per il contenuto della home
     Center(child: Text('Community Page')),
-    Center(child: Text('Achievements Page')),
     Center(child: Text('Profile Page')),
+    Center(child: Text('Home Page Content')),
+    BadgesPage()
   ];
 
   void _onItemTapped(int index) {
@@ -192,8 +195,8 @@ class _HomePageState extends State<HomePage> {
             ),
             IconButton(
               icon: Icon(Icons.military_tech, color: Colors.white),
-              onPressed: () => _onItemTapped(2),
-              tooltip: 'Achievements',
+              onPressed: () => _onItemTapped(4),
+              tooltip: 'Badges',
             ),
           ],
         ),
