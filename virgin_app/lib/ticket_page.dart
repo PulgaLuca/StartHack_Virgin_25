@@ -902,7 +902,7 @@ class _TicketsPageState extends State<TicketsPage> with SingleTickerProviderStat
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[100],
-      // AppBar con freccia indietro standard a sinistra
+      // AppBar con titolo centrato
       appBar: AppBar(
         title: Text(
           'Tickets',
@@ -914,12 +914,10 @@ class _TicketsPageState extends State<TicketsPage> with SingleTickerProviderStat
         ),
         backgroundColor: virginRed,
         elevation: 2,
-        centerTitle: false,
+        centerTitle: true, // Imposta il titolo al centro
         iconTheme: IconThemeData(
-          color: Colors.white, // Assicura che la freccia sia bianca
+          color: Colors.white,
         ),
-        // Questo permetterà di visualizzare la freccia indietro standard
-        // esattamente come appare nella home page
         automaticallyImplyLeading: true,
       ),
       // Il corpo dell'app con lo stack dei biglietti

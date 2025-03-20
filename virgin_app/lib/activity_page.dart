@@ -215,7 +215,7 @@ class _ActivityPageState extends State<ActivityPage> {
         ),
         backgroundColor: virginRed,
         elevation: 2,
-        centerTitle: false,
+        centerTitle: true, // Modificato da false a true per centrare il titolo
         iconTheme: IconThemeData(
           color: Colors.white,
         ),
