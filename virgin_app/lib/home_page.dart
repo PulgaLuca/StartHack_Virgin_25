@@ -810,29 +810,3 @@ class _HomeContentState extends State<HomeContent> {
     );
   }
 }
-
-// ESTENSIONE DELLE ALTRE PAGINE CON AVATAR
-// Estendi ActivityPage con avatar
-class ActivityPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Activities'),
-        backgroundColor: Color(0xFFE50914),
-        actions: [
-          // Avatar in alto a destra
-          Padding(
-            padding: EdgeInsets.only(right: 16),
-            child: AvatarWidget(
-              imagePath: 'assets/mostro2_profilo.png',
-            ),
-          ),
-        ],
-      ),
-      body: Center(
-        child: Text('Activities Content'),
-      ),
-    );
-  }
-}
