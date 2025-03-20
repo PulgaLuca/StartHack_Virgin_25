@@ -21,7 +21,14 @@ class _BadgesPageState extends State<BadgesPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Badges'),
+        title: Text(
+          'Tickets',
+          style: TextStyle(
+            fontSize: 22,
+            fontWeight: FontWeight.w500,
+            color: Colors.white,
+          ),
+        ),
         backgroundColor: virginRed,
       ),
       body: Stack(
@@ -56,7 +63,6 @@ class _BadgesPageState extends State<BadgesPage> {
             right: 0,
             child: Center(
               child: ElevatedButton(
-                child: Text('Scan QR Code'),
                 onPressed: () => Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (context) => QrCodeScanner(
@@ -76,6 +82,14 @@ class _BadgesPageState extends State<BadgesPage> {
                 style: ElevatedButton.styleFrom(
                   backgroundColor: virginRed,
                   padding: EdgeInsets.symmetric(horizontal: 50, vertical: 15),
+                ),
+                child: Text(
+                  'Scan QR Code',
+                  style: TextStyle(
+                    fontSize: 22,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.white,
+                  ),
                 ),
               ),
             ),

@@ -217,18 +217,6 @@ class _ActivityPageState extends State<ActivityPage> {
         backgroundColor: virginRed,
         elevation: 2,
         centerTitle: false,
-        // Freccia indietro stile classico "<" a sinistra
-        leading: IconButton(
-          icon: Icon(Icons.chevron_left, color: Colors.white),
-          onPressed: () {
-            // Torna alla HomePage
-            
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (context) => HomePage()),
-            );
-          },
-        ),
         iconTheme: IconThemeData(
           color: Colors.white,
         ),
