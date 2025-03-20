@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'activity_page.dart';
 import 'ticket_page.dart';
-import 'login_page.dart'; // Importa la pagina di login
+import 'login_page.dart';
+import 'community_page.dart'; // Importa la pagina community
 
 class HomePage extends StatefulWidget {
   @override
@@ -180,7 +181,13 @@ class _HomePageState extends State<HomePage> {
             SizedBox(width: 50), // Spazio per l'icona centrale Home
             IconButton(
               icon: Icon(Icons.groups, color: Colors.white),
-              onPressed: () => _onItemTapped(1),
+              onPressed: () {
+                // Navigazione alla pagina Community
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => CommunityPage()),
+                );
+              },
               tooltip: 'Community',
             ),
             IconButton(
