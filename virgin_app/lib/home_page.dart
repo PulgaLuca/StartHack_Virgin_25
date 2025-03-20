@@ -3,7 +3,6 @@ import 'activity_page.dart';
 import 'ticket_page.dart';
 import 'login_page.dart';
 import 'community_page.dart'; // Importa la pagina community
-import 'login_page.dart'; // Importa la pagina di login
 import 'package:virgin_app/badges_page.dart';
 
 class HomePage extends StatefulWidget {
@@ -60,9 +59,9 @@ class _HomePageState extends State<HomePage> {
   // Pagine per il tab navigator
   final List<Widget> _pages = [
     HomeContent(), // Una classe separata per il contenuto della home
-    Center(child: Text('Community Page')),
-    Center(child: Text('Profile Page')),
-    Center(child: Text('Home Page Content')),
+    CommunityPage(),
+    ActivityPage(),
+    TicketsPage(),
     BadgesPage()
   ];
 
@@ -165,32 +164,16 @@ class _HomePageState extends State<HomePage> {
           children: [
             IconButton(
               icon: Icon(Icons.menu, color: Colors.white),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => ActivityPage()),
-                );
-              },
+              onPressed: () => _onItemTapped(2),
             ),
             IconButton(
               icon: Icon(Icons.confirmation_number, color: Colors.white),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => TicketsPage()),
-                );
-              },
+              onPressed: () => _onItemTapped(3),
             ),
             SizedBox(width: 50), // Spazio per l'icona centrale Home
             IconButton(
               icon: Icon(Icons.groups, color: Colors.white),
-              onPressed: () {
-                // Navigazione alla pagina Community
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => CommunityPage()),
-                );
-              },
+              onPressed: () => _onItemTapped(1),
               tooltip: 'Community',
             ),
             IconButton(
@@ -204,10 +187,10 @@ class _HomePageState extends State<HomePage> {
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.white,
         onPressed: () => _onItemTapped(0),
-        child: Icon(Icons.home, color: virginRed, size: 30),
         shape: CircleBorder(),
         tooltip: 'Home',
         elevation: 4,
+        child: Icon(Icons.home, color: virginRed, size: 30),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );

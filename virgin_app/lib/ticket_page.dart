@@ -833,11 +833,11 @@ class _TicketsPageState extends State<TicketsPage> with SingleTickerProviderStat
       ),
       // FAB per aggiungere nuovi ticket
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        backgroundColor: virginRed,
-        child: Icon(Icons.add, color: Colors.white),
+        onPressed: () => _onItemTapped(0),
+        backgroundColor: Colors.white,
         elevation: 4,
         shape: CircleBorder(), // Assicura che sia perfettamente circolare
+        child: Icon(Icons.home, color: virginRed, size: 30),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       // Bottom navigation bar

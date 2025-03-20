@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'home_page.dart'; // Per la navigazione verso la home
-import 'ticket_page.dart'; // Per la navigazione verso tickets
 import 'airplane_booking_page.dart'; // Importazione della versione completa di AirplaneBookingPage
 
 // Pagine di prenotazione con design migliorato
@@ -202,24 +201,6 @@ class ActivityPage extends StatefulWidget {
 class _ActivityPageState extends State<ActivityPage> {
   final Color virginRed = Color(0xFFE50914);
 
-  // Metodo per gestire la navigazione
-  void _onItemTapped(int index) {
-    if (index == 0) {
-      // Home
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => HomePage()),
-      );
-    } else if (index == 1) {
-      // Tickets
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => TicketsPage()),
-      );
-    }
-    // Altre opzioni di navigazione possono essere aggiunte qui
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -359,59 +340,9 @@ class _ActivityPageState extends State<ActivityPage> {
                   ),
                 ],
               ),
-              
               SizedBox(height: 30),
             ],
           ),
-        ),
-      ),
-      // FAB per aggiungere nuovi elementi
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          // Naviga alla home
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(builder: (context) => HomePage()),
-          );
-        },
-        backgroundColor: Colors.white,
-        child: Icon(Icons.home, color: virginRed, size: 30),
-        elevation: 4,
-        shape: CircleBorder(),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      // Bottom navigation bar
-      bottomNavigationBar: BottomAppBar(
-        shape: CircularNotchedRectangle(),
-        color: virginRed,
-        clipBehavior: Clip.antiAlias,
-        notchMargin: 8,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            // Current page (Activity) - highlighted
-            IconButton(
-              icon: Icon(Icons.menu, color: Colors.white),
-              onPressed: () {}, // Già nella pagina Activity
-              tooltip: 'Activity',
-            ),
-            IconButton(
-              icon: Icon(Icons.confirmation_number, color: Colors.white),
-              onPressed: () => _onItemTapped(1), // Tickets page
-              tooltip: 'Tickets',
-            ),
-            SizedBox(width: 50), // Spazio per il FAB
-            IconButton(
-              icon: Icon(Icons.groups, color: Colors.white),
-              onPressed: () {}, // Implementare navigazione alla pagina Community
-              tooltip: 'Community',
-            ),
-            IconButton(
-              icon: Icon(Icons.military_tech, color: Colors.white),
-              onPressed: () {}, // Implementare navigazione alla pagina Achievements
-              tooltip: 'Achievements',
-            ),
-          ],
         ),
       ),
     );
