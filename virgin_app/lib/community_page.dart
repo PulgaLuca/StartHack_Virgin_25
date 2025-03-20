@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'home_page.dart';
-import 'activity_page.dart';
-import 'ticket_page.dart';
 
 class CommunityPage extends StatefulWidget {
   @override
