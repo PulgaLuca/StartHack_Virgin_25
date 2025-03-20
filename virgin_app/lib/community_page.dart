@@ -15,21 +15,20 @@ class _CommunityPageState extends State<CommunityPage> {
   final int totalPoints = 1000000; // Total community points
   final int spentPoints = 600000; // Points already spent
 
-  // List of projects to vote for - Testo abbreviato per Renewable Energy
   final List<VotingProject> votingProjects = [
     VotingProject(
-      title: 'Urban Garden Initiative',
-      description: 'Create green spaces in urban areas to promote sustainability.',
+      title: 'Youngest, Cleanest Fleet in the Sky',
+      description: 'The time for action against climate change is now. Virgin Atlantic are on a mission to achieve net-zero by 2050.',
       votes: 120,
     ),
     VotingProject(
-      title: 'Clean Water for All',
-      description: 'Provide clean drinking water to underserved communities.',
+      title: 'Pride \'n Purpose',
+      description: 'Many communities surrounding Ulusaba lack basic needs such as access to clean drinking water, basic healthcare, food, childcare, and job opportunities.',
       votes: 95,
     ),
     VotingProject(
-      title: 'Renewable Energy',
-      description: 'Install solar panels in rural areas for clean energy.',
+      title: 'Ocean Unite / ORRAA',
+      description: 'The dual crises of climate change and mass wildlife extinctions threaten to forever change our world. By 2050, over 570 low-lying coastal cities will face threats from sea level rise and an estimated 800 million people will be at risk to storm surge and flooding from extreme weather events. The currents that swirl around Antarctica transport essential nutrients to other ocean currents that feed the rest of the world’s ocean. This vitally important region is on the frontline of the climate crisis.',
       votes: 80,
     ),
   ];
@@ -279,7 +278,7 @@ class _CommunityPageState extends State<CommunityPage> {
               padding: EdgeInsets.all(20),
               alignment: Alignment.bottomLeft,
               child: Text(
-                'Rebuild the forest',
+                'Protecting our Planet',
                 style: TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
@@ -295,7 +294,7 @@ class _CommunityPageState extends State<CommunityPage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Celebrate the achievement of 1M virgin points globally spent this year with the "Rebuild the forest" project! Make the difference and engage with the community!',
+                  'Celebrate the achievement of 1M virgin points globally spent this year with the "Protecting our Planet" project! Make the difference and engage with the community! Contrails, aircraft condensation trails, heighten the effect of global warming, which may account for more than half (57%) of the entire climate impact of aviation.',
                   style: TextStyle(
                     fontSize: 15,
                     color: Colors.grey[700],
@@ -498,9 +497,9 @@ class _CommunityPageState extends State<CommunityPage> {
   // Helper per ottenere icone diverse per ogni progetto
   IconData _getIconForProject(int index) {
     List<IconData> icons = [
+      Icons.airplanemode_active,
       Icons.nature_people,
       Icons.water_drop,
-      Icons.solar_power,
     ];
     
     return index < icons.length ? icons[index] : Icons.volunteer_activism;
