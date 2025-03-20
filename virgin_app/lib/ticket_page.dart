@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'activity_page.dart';
-import 'home_page.dart';
-import 'community_page.dart';
-
 class TicketsPage extends StatefulWidget {
   @override
   _TicketsPageState createState() => _TicketsPageState();
@@ -92,6 +88,98 @@ class _TicketsPageState extends State<TicketsPage> with SingleTickerProviderStat
     });
   }
 
+  void _showAddFriendsDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Add Friends'),
+          content: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                TextField(
+                  decoration: InputDecoration(
+                    labelText: 'Search friends',
+                    prefixIcon: Icon(Icons.search),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                  ),
+                ),
+                SizedBox(height: 15),
+                _buildFriendItem('Luca Verdi', 'assets/mostro2_profilo.png'),
+                _buildFriendItem('Sofia Russo', 'assets/mostro3_profilo.png'),
+                _buildFriendItem('Marco Bruno', 'assets/mostro4_profilo.png'),
+              ],
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () {
+                // Implement the logic to add selected friends
+                Navigator.of(context).pop();
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text('Friends invited successfully!'),
+                    backgroundColor: virginRed,
+                  ),
+                );
+              },
+              child: Text('Invite', style: TextStyle(color: virginRed)),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Widget _buildFriendItem(String name, String imagePath) {
+    return Container(
+      padding: EdgeInsets.symmetric(vertical: 8.0),
+      child: Row(
+        children: [
+          CircleAvatar(
+            radius: 24,
+            backgroundImage: AssetImage(imagePath),
+          ),
+          SizedBox(width: 15),
+          Text(
+            name,
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+          Spacer(),
+          Checkbox(
+            value: false,
+            onChanged: (value) {},
+            activeColor: virginRed,
+          ),
+        ],
+      ),
+    );
+  }
+  
+  Widget _buildFriendAvatar(String imagePath) {
+    return Container(
+      width: 38,
+      height: 38,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        border: Border.all(color: Colors.white, width: 2),
+      ),
+      child: CircleAvatar(
+        backgroundImage: AssetImage(imagePath),
+      ),
+    );
+  }
+
   Widget _buildCard(int index, Map<String, dynamic> ticket) {
     final bool isSelected = _selectedCardIndex == index;
     
@@ -162,7 +250,29 @@ class _TicketsPageState extends State<TicketsPage> with SingleTickerProviderStat
                 decoration: BoxDecoration(
                   color: ticket['backgroundColor'],
                 ),
-                child: _buildCardContent(ticket, isSelected && _isCardExpanded),
+                child: Stack(
+                  children: [
+                    _buildCardContent(ticket, isSelected && _isCardExpanded),
+                    
+                    // Bottone "Add Friends" in basso a destra
+                    if (isSelected && _isCardExpanded)
+                      Positioned(
+                        right: 20,
+                        bottom: 20,
+                        child: FloatingActionButton.small(
+                          heroTag: "addFriend_$index",
+                          onPressed: _showAddFriendsDialog,
+                          backgroundColor: ticket['backgroundColor'],
+                          child: Icon(
+                            Icons.person_add_alt_1,
+                            color: Colors.white,
+                            size: 20,
+                          ),
+                          tooltip: 'Add Friends',
+                        ),
+                      ),
+                  ],
+                ),
               ),
             ),
           ),
@@ -192,19 +302,19 @@ class _TicketsPageState extends State<TicketsPage> with SingleTickerProviderStat
           child: Row(
             children: [
               Container(
-                width: 40,
-                height: 40,
+                width: 48,
+                height: 48,
                 decoration: BoxDecoration(
                   color: Colors.white,
                   shape: BoxShape.circle,
                 ),
                 child: Center(
                   child: ClipRRect(
-                    borderRadius: BorderRadius.circular(20),
+                    borderRadius: BorderRadius.circular(24),
                     child: Image.asset(
                       ticket['logoPath'],
-                      width: 30,
-                      height: 30,
+                      width: 36,
+                      height: 36,
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -219,6 +329,18 @@ class _TicketsPageState extends State<TicketsPage> with SingleTickerProviderStat
                   fontWeight: FontWeight.w600,
                 ),
               ),
+              Spacer(),
+              // Avatar degli amici che partecipano al viaggio (solo per il biglietto aereo)
+              if (ticket['type'] == 'travel')
+                Row(
+                  children: [
+                    _buildFriendAvatar('assets/mostro4_profilo.png'),
+                    Transform.translate(
+                      offset: Offset(-10, 0),
+                      child: _buildFriendAvatar('assets/mostro2_profilo.png'),
+                    ),
+                  ],
+                ),
             ],
           ),
         ),
@@ -320,7 +442,7 @@ class _TicketsPageState extends State<TicketsPage> with SingleTickerProviderStat
                           ),
                         ),
                       ),
-                      SizedBox(height: 20),
+                      SizedBox(height: 40), // Extra padding for the floating button
                     ],
                   ],
                 ),
@@ -488,6 +610,7 @@ class _TicketsPageState extends State<TicketsPage> with SingleTickerProviderStat
                         ),
                       ),
                     ),
+                    SizedBox(height: 20), // Extra padding for the floating button
                   ],
                 )
               : Padding(
@@ -585,6 +708,9 @@ class _TicketsPageState extends State<TicketsPage> with SingleTickerProviderStat
                   fontWeight: FontWeight.w600,
                 ),
               ),
+              Spacer(),
+              // Avatar degli amici che partecipano all'evento
+              _buildFriendAvatar('assets/mostro3_profilo.png'),
             ],
           ),
         ),
@@ -726,7 +852,7 @@ class _TicketsPageState extends State<TicketsPage> with SingleTickerProviderStat
                       ),
                       // QR code con margini sufficienti
                       Container(
-                        margin: EdgeInsets.only(top: 40, bottom: 40),
+                        margin: EdgeInsets.only(top: 40, bottom: 60), // Extra bottom margin for FAB
                         height: 120,
                         width: 120,
                         decoration: BoxDecoration(
@@ -776,7 +902,7 @@ class _TicketsPageState extends State<TicketsPage> with SingleTickerProviderStat
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[100],
-      // AppBar con freccia indietro standard a sinistra
+      // AppBar con titolo centrato
       appBar: AppBar(
         title: Text(
           'Tickets',
@@ -788,12 +914,10 @@ class _TicketsPageState extends State<TicketsPage> with SingleTickerProviderStat
         ),
         backgroundColor: virginRed,
         elevation: 2,
-        centerTitle: false,
+        centerTitle: true, // Imposta il titolo al centro
         iconTheme: IconThemeData(
-          color: Colors.white, // Assicura che la freccia sia bianca
+          color: Colors.white,
         ),
-        // Questo permetterà di visualizzare la freccia indietro standard
-        // esattamente come appare nella home page
         automaticallyImplyLeading: true,
       ),
       // Il corpo dell'app con lo stack dei biglietti
@@ -820,7 +944,7 @@ class _TicketsPageState extends State<TicketsPage> with SingleTickerProviderStat
           // Pulsante + sul lato destro
           Positioned(
             right: 20,
-            bottom: 100, // Posizionato sopra il bottomNavigationBar
+            bottom: 20, // Posizionato appena sopra la navbar
             child: FloatingActionButton(
               onPressed: () {},
               backgroundColor: virginRed,

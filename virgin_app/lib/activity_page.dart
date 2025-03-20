@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'home_page.dart'; // Per la navigazione verso la home
-import 'airplane_booking_page.dart'; // Importazione della versione completa di AirplaneBookingPage
+import 'airplane_booking_page.dart';
 
 // Pagine di prenotazione con design migliorato
 class TrainBookingPage extends StatelessWidget {
@@ -193,7 +192,7 @@ class MoviePage extends StatelessWidget {
   }
 }
 
-// ActivityPage con design migliorato e navbar
+// ActivityPage con design migliorato, loghi aziendali e riferimenti visivi ai servizi
 class ActivityPage extends StatefulWidget {
   @override
   _ActivityPageState createState() => _ActivityPageState();
@@ -208,16 +207,16 @@ class _ActivityPageState extends State<ActivityPage> {
       backgroundColor: Colors.grey[50],
       appBar: AppBar(
         title: Text(
-          'Welcome to Virgin Activities',
+          'Virgin Experiences',
           style: TextStyle(
-            fontSize: 20,
+            fontSize: 22,
             fontWeight: FontWeight.w500,
             color: Colors.white,
           ),
         ),
         backgroundColor: virginRed,
         elevation: 2,
-        centerTitle: false,
+        centerTitle: true, // Modificato da false a true per centrare il titolo
         iconTheme: IconThemeData(
           color: Colors.white,
         ),
@@ -248,19 +247,25 @@ class _ActivityPageState extends State<ActivityPage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      _buildActivityCard(
+                      _buildEnhancedCard(
                         context,
-                        icon: Icons.airplanemode_active,
+                        logo: 'assets/virgin_atlantic_logo.png',
                         title: 'Flights',
-                        color: Colors.redAccent,
-                        page: AirplaneBookingPage(), // Ora usa la versione completa
+                        subtitle: 'Virgin Atlantic',
+                        color: Color(0xFFE50914),
+                        iconData: Icons.airplanemode_active,
+                        page: AirplaneBookingPage(),
+                        backgroundImage: 'assets/airplane.jpeg',
                       ),
-                      _buildActivityCard(
+                      _buildEnhancedCard(
                         context,
-                        icon: Icons.hotel,
+                        logo: 'assets/virgin_hotels_logo.png',
                         title: 'Hotels',
-                        color: Colors.redAccent[400]!,
+                        subtitle: 'Virgin Hotels',
+                        color: Color(0xFFE50914),
+                        iconData: Icons.hotel,
                         page: TrainBookingPage(),
+                        backgroundImage: 'assets/hotel.jpg',
                       ),
                     ],
                   ),
@@ -287,12 +292,15 @@ class _ActivityPageState extends State<ActivityPage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      _buildActivityCard(
+                      _buildEnhancedCard(
                         context,
-                        icon: Icons.fitness_center,
-                        title: 'Gym',
+                        logo: 'assets/virgin_active_logo.png',
+                        title: 'Fitness',
+                        subtitle: 'Virgin Active',
                         color: Color(0xFFE41B13),
+                        iconData: Icons.fitness_center,
                         page: GymPage(),
+                        backgroundImage: 'assets/gym.jpg',
                       ),
                     ],
                   ),
@@ -319,12 +327,15 @@ class _ActivityPageState extends State<ActivityPage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      _buildActivityCard(
+                      _buildEnhancedCard(
                         context,
-                        icon: Icons.music_note,
+                        logo: 'assets/virgin_radio_logo.png',
                         title: 'Events',
+                        subtitle: 'Virgin Radio',
                         color: Color(0xFF760027),
+                        iconData: Icons.music_note,
                         page: MoviePage(),
+                        backgroundImage: 'assets/radio.jpg',
                       ),
                     ],
                   ),
@@ -338,7 +349,148 @@ class _ActivityPageState extends State<ActivityPage> {
     );
   }
   
-  // Widget helper per creare una card di attività
+  // Widget avanzato per creare card con logo aziendale e immagine di sfondo
+  Widget _buildEnhancedCard(
+    BuildContext context, {
+    required String logo,
+    required String title,
+    required String subtitle,
+    required Color color,
+    required IconData iconData,
+    required Widget page,
+    required String backgroundImage,
+  }) {
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => page),
+        );
+      },
+      child: Container(
+        width: 165,
+        height: 240, // Aumentata l'altezza da 220 a 240 per risolvere l'overflow
+        margin: EdgeInsets.symmetric(horizontal: 5),
+        child: Card(
+          elevation: 4,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(16),
+            child: Stack(
+              children: [
+                // Immagine di sfondo sfumata
+                Positioned.fill(
+                  child: Image.asset(
+                    backgroundImage,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+                // Overlay gradient scuro
+                Positioned.fill(
+                  child: Container(
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        colors: [
+                          Colors.black.withOpacity(0.1),
+                          Colors.black.withOpacity(0.7),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                // Contenuto della card
+                Padding(
+                  padding: EdgeInsets.all(12),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // Logo aziendale in alto
+                      Container(
+                        width: 50,
+                        height: 50,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          shape: BoxShape.circle,
+                        ),
+                        child: Padding(
+                          padding: EdgeInsets.all(8),
+                          child: Image.asset(
+                            logo,
+                            fit: BoxFit.contain,
+                          ),
+                        ),
+                      ),
+                      Spacer(),
+                      // Icona relativa al servizio
+                      Container(
+                        padding: EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                          color: color.withOpacity(0.2),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Icon(
+                          iconData,
+                          color: Colors.white,
+                          size: 24,
+                        ),
+                      ),
+                      SizedBox(height: 8),
+                      // Titolo e sottotitolo
+                      Text(
+                        title,
+                        style: TextStyle(
+                          fontSize: 16, // Ridotta da 18 a 16
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                      ),
+                      SizedBox(height: 2),
+                      Text(
+                        subtitle,
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: Colors.white.withOpacity(0.8),
+                        ),
+                      ),
+                      SizedBox(height: 4), // Ridotto da 8 a 4
+                      // Pulsante di azione
+                      Container(
+                        width: double.infinity,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => page),
+                            );
+                          },
+                          child: Text('Explore'),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: color,
+                            foregroundColor: Colors.white,
+                            padding: EdgeInsets.symmetric(vertical: 8),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            minimumSize: Size(double.infinity, 30),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+  
+  // Versione precedente del metodo, mantenuta per riferimento
   Widget _buildActivityCard(
     BuildContext context, {
     required IconData icon,

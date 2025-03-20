@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:virgin_app/aes_helper.dart';
 import 'qr_scanner_page.dart';
 
 class BadgesPage extends StatefulWidget {
@@ -25,7 +26,7 @@ class _BadgesPageState extends State<BadgesPage> {
 
     if (scannedCode != null) {
       for (int i = 0; i < badgeImages.length; i++) {
-        if (scannedCode == 'badge_${i+1}.png') {
+        if (AESHelper.decrypt(scannedCode) == 'badge_${i+1}.png') {
           // print('Scanning: $scannedCode');
           // print('Updating to: assets/badge_${i+1}_taken.png');
           updateImage(i, 'assets/badge_${i+1}_taken.png'); // Replace with your new image
