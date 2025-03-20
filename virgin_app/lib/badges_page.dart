@@ -7,6 +7,7 @@ class BadgesPage extends StatefulWidget {
 }
 
 class _BadgesPageState extends State<BadgesPage> {
+  final Color virginRed = Color(0xFFE50914);
   List<String> badgeImages = List.generate(6, (index) => 'assets/badge_${index+1}.png');
 
   void updateImage(int index, String newImagePath) {
@@ -21,7 +22,7 @@ class _BadgesPageState extends State<BadgesPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Badges'),
-        backgroundColor: Colors.red,
+        backgroundColor: virginRed,
       ),
       body: Stack(
         children: [
@@ -73,7 +74,7 @@ class _BadgesPageState extends State<BadgesPage> {
                   ),
                 ),
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.red,
+                  backgroundColor: virginRed,
                   padding: EdgeInsets.symmetric(horizontal: 50, vertical: 15),
                 ),
               ),
