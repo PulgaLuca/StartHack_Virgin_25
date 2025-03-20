@@ -11,6 +11,13 @@ class _TicketsPageState extends State<TicketsPage> with SingleTickerProviderStat
   bool _isCardExpanded = false;
   final Color virginRed = Color(0xFFE50914);
   
+  // Definizione dei colori di sfondo per gli avatar con maggiore contrasto
+  final Map<String, Color> avatarBackgrounds = {
+    'assets/mostro2_profilo.png': Color(0xFF5DADE2), // Blu chiaro
+    'assets/mostro3_profilo.png': Color(0xFFF4D03F), // Giallo
+    'assets/mostro4_profilo.png': Color(0xFF58D68D), // Verde
+  };
+  
   // Definizione dei biglietti (in stile iOS Wallet)
   final List<Map<String, dynamic>> tickets = [
     {
@@ -40,7 +47,7 @@ class _TicketsPageState extends State<TicketsPage> with SingleTickerProviderStat
       'logoPath': 'assets/virgin_active_logo.png',
       'company': 'Virgin Active',
       'membershipType': 'Premium Subscription',
-      'memberName': 'Mario Rossi',
+      'memberName': 'Sarah Rossi',
       'memberLevel': 'VIP'
     },
     {
@@ -173,6 +180,7 @@ class _TicketsPageState extends State<TicketsPage> with SingleTickerProviderStat
       height: 38,
       decoration: BoxDecoration(
         shape: BoxShape.circle,
+        color: avatarBackgrounds[imagePath] ?? Colors.white,
         border: Border.all(color: Colors.white, width: 2),
       ),
       child: CircleAvatar(
@@ -907,7 +915,7 @@ class _TicketsPageState extends State<TicketsPage> with SingleTickerProviderStat
       // AppBar con titolo centrato
       appBar: AppBar(
         title: Text(
-          'Tickets',
+          'Your Tickets',
           style: TextStyle(
             fontSize: 22,
             fontWeight: FontWeight.w500,
