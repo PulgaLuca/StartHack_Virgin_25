@@ -15,7 +15,7 @@ class _TicketsPageState extends State<TicketsPage> with SingleTickerProviderStat
   final List<Map<String, dynamic>> tickets = [
     {
       'type': 'travel',
-      'title': 'Partenza e Destinazione',
+      'title': 'Departure and Destination',
       'from': 'MXP',
       'to': 'LHR',
       'date': '15 APR',
@@ -27,31 +27,34 @@ class _TicketsPageState extends State<TicketsPage> with SingleTickerProviderStat
       'textColor': Colors.white,
       'logoPath': 'assets/virgin_atlantic_logo.png',
       'company': 'Virgin Atlantic',
-      'fromCity': 'Milano',
-      'toCity': 'Londra'
+      'fromCity': 'Milan',
+      'toCity': 'London'
     },
     {
       'type': 'membership',
-      'title': 'Accesso Palestra',
+      'title': 'Gym Access',
       'membershipNumber': '9876543210',
-      'validUntil': '15 MAG 2025',
-      'backgroundColor': Color(0xFFFF5722),
+      'validUntil': '15 MAY 2025',
+      'backgroundColor': Color(0xFFE41B13),  // Rosso Virgin Active
       'textColor': Colors.white,
       'logoPath': 'assets/virgin_active_logo.png',
       'company': 'Virgin Active',
-      'membershipType': 'Abbonamento Premium'
+      'membershipType': 'Premium Subscription',
+      'memberName': 'Mario Rossi',
+      'memberLevel': 'VIP'
     },
     {
       'type': 'event',
-      'title': 'Concerto Live',
-      'eventName': 'Live Music Festival',
-      'date': '22 GIU',
+      'title': 'Live Concert',
+      'eventName': 'Virgin Radio Live Festival',
+      'date': '22 JUN',
       'time': '19:30',
-      'location': 'Stadio San Siro, Milano',
-      'seat': 'Settore B, Fila 10, Posto 45',
-      'backgroundColor': Color(0xFF1E88E5),
+      'location': 'San Siro Stadium, Milan',
+      'seat': 'Section B, Row 10, Seat 45',
+      'backgroundColor': Color(0xFF760027),
       'textColor': Colors.white,
-      'company': 'TicketOne'
+      'logoPath': 'assets/virgin_radio_logo.png',
+      'company': 'Virgin Radio'
     },
   ];
 
@@ -73,11 +76,11 @@ class _TicketsPageState extends State<TicketsPage> with SingleTickerProviderStat
   void _toggleCardExpansion(int index) {
     setState(() {
       if (_selectedCardIndex == index && _isCardExpanded) {
-        // Chiudi il biglietto
+        // Close the ticket
         _isCardExpanded = false;
         _animationController.reverse();
       } else {
-        // Apri il biglietto
+        // Open the ticket
         _selectedCardIndex = index;
         _isCardExpanded = true;
         _animationController.forward(from: 0.0);
@@ -87,11 +90,43 @@ class _TicketsPageState extends State<TicketsPage> with SingleTickerProviderStat
 
   Widget _buildCard(int index, Map<String, dynamic> ticket) {
     final bool isSelected = _selectedCardIndex == index;
-    final double topMargin = isSelected ? 20.0 : 28.0 + (8.0 * (index - _selectedCardIndex).abs());
+    
+    // Calcolo iniziale della posizione di default delle carte quando sono tutte chiuse
+    // Ogni carta è posizionata più in basso rispetto alla precedente
+    double initialTopPosition = 20.0 + (index * 80.0);
+    
+    // Se una carta è selezionata, riposiziona le altre
+    double topMargin;
+    if (_isCardExpanded) {
+      if (isSelected) {
+        // La carta selezionata va in alto
+        topMargin = 20.0;
+      } else if (index < _selectedCardIndex) {
+        // Le carte sopra quella selezionata si spostano più in alto
+        topMargin = 10.0;
+      } else {
+        // Le carte sotto quella selezionata vanno in fondo
+        topMargin = 500.0;
+      }
+    } else {
+      // Quando tutte le carte sono chiuse, mantieni la posizione a cascata
+      topMargin = initialTopPosition;
+    }
+    
     final double opacity = isSelected ? 1.0 : (_isCardExpanded ? 0.7 : 1.0);
     
-    // Aumentata l'altezza del biglietto espanso per evitare overflow del QR code
-    final double cardHeight = isSelected && _isCardExpanded ? 450 : 200;
+    // Ulteriormente aumentata l'altezza del biglietto espanso 
+    final double cardHeight;
+    if (isSelected && _isCardExpanded) {
+      // Altezza specifica in base al tipo di biglietto
+      if (ticket['type'] == 'event') {
+        cardHeight = 500; // Più alta per Virgin Radio
+      } else {
+        cardHeight = 480; // Per gli altri tipi
+      }
+    } else {
+      cardHeight = 200; // Altezza standard quando chiuso
+    }
     
     return AnimatedPositioned(
       duration: Duration(milliseconds: 300),
@@ -104,11 +139,8 @@ class _TicketsPageState extends State<TicketsPage> with SingleTickerProviderStat
         child: AnimatedOpacity(
           duration: Duration(milliseconds: 300),
           opacity: opacity,
-          child: AnimatedContainer(
-            duration: Duration(milliseconds: 300),
-            height: cardHeight,
+          child: Container(
             decoration: BoxDecoration(
-              color: ticket['backgroundColor'],
               borderRadius: BorderRadius.circular(16),
               boxShadow: [
                 BoxShadow(
@@ -118,7 +150,17 @@ class _TicketsPageState extends State<TicketsPage> with SingleTickerProviderStat
                 ),
               ],
             ),
-            child: _buildCardContent(ticket, isSelected && _isCardExpanded),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(16),
+              child: AnimatedContainer(
+                duration: Duration(milliseconds: 300),
+                height: cardHeight,
+                decoration: BoxDecoration(
+                  color: ticket['backgroundColor'],
+                ),
+                child: _buildCardContent(ticket, isSelected && _isCardExpanded),
+              ),
+            ),
           ),
         ),
       ),
@@ -185,7 +227,7 @@ class _TicketsPageState extends State<TicketsPage> with SingleTickerProviderStat
                 bottomRight: Radius.circular(16),
               ),
             ),
-            child: SingleChildScrollView(  // Aggiunto SingleChildScrollView per evitare overflow
+            child: SingleChildScrollView(
               child: Padding(
                 padding: EdgeInsets.all(20.0),
                 child: Column(
@@ -244,9 +286,9 @@ class _TicketsPageState extends State<TicketsPage> with SingleTickerProviderStat
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          _buildInfoColumn('Data', ticket['date']),
-                          _buildInfoColumn('Orario', ticket['time']),
-                          _buildInfoColumn('Volo', ticket['flightNumber']),
+                          _buildInfoColumn('Date', ticket['date']),
+                          _buildInfoColumn('Time', ticket['time']),
+                          _buildInfoColumn('Flight', ticket['flightNumber']),
                         ],
                       ),
                       SizedBox(height: 20),
@@ -254,11 +296,11 @@ class _TicketsPageState extends State<TicketsPage> with SingleTickerProviderStat
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           _buildInfoColumn('Gate', ticket['gate']),
-                          _buildInfoColumn('Posto', ticket['seat']),
-                          _buildInfoColumn('Classe', 'Economy'),
+                          _buildInfoColumn('Seat', ticket['seat']),
+                          _buildInfoColumn('Class', 'Economy'),
                         ],
                       ),
-                      SizedBox(height: 30),  // Spazio aggiuntivo per evitare overflow
+                      SizedBox(height: 30),
                       Center(
                         child: Container(
                           height: 100,
@@ -274,7 +316,7 @@ class _TicketsPageState extends State<TicketsPage> with SingleTickerProviderStat
                           ),
                         ),
                       ),
-                      SizedBox(height: 20),  // Spazio aggiuntivo in fondo
+                      SizedBox(height: 20),
                     ],
                   ],
                 ),
@@ -321,6 +363,22 @@ class _TicketsPageState extends State<TicketsPage> with SingleTickerProviderStat
                   fontWeight: FontWeight.w600,
                 ),
               ),
+              Spacer(),
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Text(
+                  ticket['memberLevel'],
+                  style: TextStyle(
+                    color: ticket['backgroundColor'],
+                    fontWeight: FontWeight.bold,
+                    fontSize: 14,
+                  ),
+                ),
+              ),
             ],
           ),
         ),
@@ -333,40 +391,68 @@ class _TicketsPageState extends State<TicketsPage> with SingleTickerProviderStat
                 bottomRight: Radius.circular(16),
               ),
             ),
-            child: SingleChildScrollView(  // Aggiunto SingleChildScrollView per evitare overflow
-              child: Padding(
-                padding: EdgeInsets.all(20.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+            child: isExpanded 
+              ? Column(
                   children: [
-                    Text(
-                      ticket['membershipType'],
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
+                    // Info section
+                    Padding(
+                      padding: EdgeInsets.all(15.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            ticket['memberName'],
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 22,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          SizedBox(height: 5),
+                          Text(
+                            ticket['membershipType'],
+                            style: TextStyle(
+                              color: ticket['backgroundColor'],
+                              fontSize: 18,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                          SizedBox(height: 12),
+                          Row(
+                            children: [
+                              Icon(Icons.credit_card, size: 16, color: Colors.grey[600]),
+                              SizedBox(width: 5),
+                              Text(
+                                'Card Number: ${ticket["membershipNumber"]}',
+                                style: TextStyle(
+                                  color: Colors.grey[700],
+                                  fontSize: 15,
+                                ),
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: 6),
+                          Row(
+                            children: [
+                              Icon(Icons.calendar_today, size: 16, color: Colors.grey[600]),
+                              SizedBox(width: 5),
+                              Text(
+                                'Valid until: ${ticket["validUntil"]}',
+                                style: TextStyle(
+                                  color: Colors.grey[700],
+                                  fontSize: 15,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
                       ),
                     ),
-                    SizedBox(height: 10),
-                    Text(
-                      'Numero Tessera: ${ticket["membershipNumber"]}',
-                      style: TextStyle(
-                        color: Colors.grey[700],
-                        fontSize: 16,
-                      ),
-                    ),
-                    SizedBox(height: 5),
-                    Text(
-                      'Valido fino al: ${ticket["validUntil"]}',
-                      style: TextStyle(
-                        color: Colors.grey[700],
-                        fontSize: 16,
-                      ),
-                    ),
-                    if (isExpanded) ...[
-                      SizedBox(height: 50),  // Spazio maggiore
-                      Center(
+                    // QR Code section
+                    Expanded(
+                      child: Center(
                         child: Container(
+                          padding: EdgeInsets.only(bottom: 0),
                           height: 100,
                           width: 100,
                           decoration: BoxDecoration(
@@ -380,27 +466,99 @@ class _TicketsPageState extends State<TicketsPage> with SingleTickerProviderStat
                           ),
                         ),
                       ),
-                      SizedBox(height: 20),
-                      Center(
-                        child: ElevatedButton(
-                          onPressed: () {},
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: ticket['backgroundColor'],
-                            foregroundColor: Colors.white,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                    ),
+                    // Button section
+                    Container(
+                      padding: EdgeInsets.only(bottom: 20, left: 20, right: 20),
+                      child: ElevatedButton.icon(
+                        icon: Icon(Icons.event_available),
+                        label: Text('Book a Class'),
+                        onPressed: () {},
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: ticket['backgroundColor'],
+                          foregroundColor: Colors.white,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20),
                           ),
-                          child: Text('Prenota un Corso'),
+                          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
                         ),
                       ),
-                      SizedBox(height: 20),  // Spazio aggiuntivo in fondo
-                    ],
+                    ),
                   ],
+                )
+              : Padding(
+                  padding: EdgeInsets.all(20.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        ticket['memberName'],
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 22,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      SizedBox(height: 5),
+                      Text(
+                        ticket['membershipType'],
+                        style: TextStyle(
+                          color: ticket['backgroundColor'],
+                          fontSize: 18,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      SizedBox(height: 15),
+                      Row(
+                        children: [
+                          Icon(Icons.credit_card, size: 16, color: Colors.grey[600]),
+                          SizedBox(width: 5),
+                          Text(
+                            'Card Number: ${ticket["membershipNumber"]}',
+                            style: TextStyle(
+                              color: Colors.grey[700],
+                              fontSize: 16,
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 8),
+                      Row(
+                        children: [
+                          Icon(Icons.calendar_today, size: 16, color: Colors.grey[600]),
+                          SizedBox(width: 5),
+                          Text(
+                            'Valid until: ${ticket["validUntil"]}',
+                            style: TextStyle(
+                              color: Colors.grey[700],
+                              fontSize: 16,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-            ),
+          ),
+        ),
+      ],
+    );
+  }
+  
+  Widget _buildBenefitRow(IconData icon, String text) {
+    return Row(
+      children: [
+        Icon(
+          icon,
+          size: 18,
+          color: Color(0xFFE41B13),
+        ),
+        SizedBox(width: 8),
+        Text(
+          text,
+          style: TextStyle(
+            fontSize: 14,
+            color: Colors.black87,
           ),
         ),
       ],
@@ -410,8 +568,9 @@ class _TicketsPageState extends State<TicketsPage> with SingleTickerProviderStat
   Widget _buildEventTicket(Map<String, dynamic> ticket, bool isExpanded) {
     return Column(
       children: [
+        // Header section
         Padding(
-          padding: EdgeInsets.all(20.0),
+          padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 15.0),
           child: Row(
             children: [
               Container(
@@ -422,10 +581,14 @@ class _TicketsPageState extends State<TicketsPage> with SingleTickerProviderStat
                   shape: BoxShape.circle,
                 ),
                 child: Center(
-                  child: Icon(
-                    Icons.music_note,
-                    color: ticket['backgroundColor'],
-                    size: 24,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(20),
+                    child: Image.asset(
+                      ticket['logoPath'],
+                      width: 30,
+                      height: 30,
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
               ),
@@ -441,6 +604,7 @@ class _TicketsPageState extends State<TicketsPage> with SingleTickerProviderStat
             ],
           ),
         ),
+        // Main content
         Expanded(
           child: Container(
             decoration: BoxDecoration(
@@ -450,91 +614,150 @@ class _TicketsPageState extends State<TicketsPage> with SingleTickerProviderStat
                 bottomRight: Radius.circular(16),
               ),
             ),
-            child: SingleChildScrollView(  // Aggiunto SingleChildScrollView per evitare overflow
-              child: Padding(
-                padding: EdgeInsets.all(20.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      ticket['eventName'],
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    SizedBox(height: 10),
-                    Row(
-                      children: [
-                        Icon(Icons.calendar_today, size: 16, color: Colors.grey[600]),
-                        SizedBox(width: 5),
-                        Text(
-                          '${ticket["date"]} - ${ticket["time"]}',
-                          style: TextStyle(
-                            color: Colors.grey[700],
-                            fontSize: 16,
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 5),
-                    Row(
-                      children: [
-                        Icon(Icons.location_on, size: 16, color: Colors.grey[600]),
-                        SizedBox(width: 5),
-                        Text(
-                          ticket['location'],
-                          style: TextStyle(
-                            color: Colors.grey[700],
-                            fontSize: 16,
-                          ),
-                        ),
-                      ],
-                    ),
-                    if (isExpanded) ...[
-                      SizedBox(height: 20),
-                      Divider(color: Colors.grey[300]),
-                      SizedBox(height: 10),
+            child: !isExpanded
+              // Contenuto quando la tessera è CHIUSA
+              ? Container(
+                  padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 15.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
                       Text(
-                        'DETTAGLI POSTO',
-                        style: TextStyle(
-                          color: Colors.grey[600],
-                          fontSize: 12,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      SizedBox(height: 5),
-                      Text(
-                        ticket['seat'],
+                        ticket['eventName'],
                         style: TextStyle(
                           color: Colors.black,
-                          fontSize: 16,
+                          fontSize: 18,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      SizedBox(height: 50),  // Spazio maggiore
-                      Center(
-                        child: Container(
-                          height: 100,
-                          width: 100,
-                          decoration: BoxDecoration(
-                            color: Colors.grey[200],
-                            borderRadius: BorderRadius.circular(8),
+                      SizedBox(height: 8),
+                      Row(
+                        children: [
+                          Icon(Icons.calendar_today, size: 14, color: Colors.grey[600]),
+                          SizedBox(width: 5),
+                          Text(
+                            '${ticket["date"]} - ${ticket["time"]}',
+                            style: TextStyle(
+                              color: Colors.grey[700],
+                              fontSize: 14,
+                            ),
                           ),
-                          child: Icon(
-                            Icons.qr_code_2,
-                            size: 80,
-                            color: Colors.black,
+                        ],
+                      ),
+                      SizedBox(height: 5),
+                      Row(
+                        children: [
+                          Icon(Icons.location_on, size: 14, color: Colors.grey[600]),
+                          SizedBox(width: 5),
+                          Flexible(
+                            child: Text(
+                              ticket['location'],
+                              style: TextStyle(
+                                color: Colors.grey[700],
+                                fontSize: 14,
+                              ),
+                              overflow: TextOverflow.ellipsis,
+                            ),
                           ),
+                        ],
+                      ),
+                    ],
+                  ),
+                )
+              // Contenuto quando la tessera è APERTA
+              : SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      // Info section
+                      Container(
+                        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              ticket['eventName'],
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            SizedBox(height: 10),
+                            Row(
+                              children: [
+                                Icon(Icons.calendar_today, size: 16, color: Colors.grey[600]),
+                                SizedBox(width: 5),
+                                Text(
+                                  '${ticket["date"]} - ${ticket["time"]}',
+                                  style: TextStyle(
+                                    color: Colors.grey[700],
+                                    fontSize: 15,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            SizedBox(height: 5),
+                            Row(
+                              children: [
+                                Icon(Icons.location_on, size: 16, color: Colors.grey[600]),
+                                SizedBox(width: 5),
+                                Text(
+                                  ticket['location'],
+                                  style: TextStyle(
+                                    color: Colors.grey[700],
+                                    fontSize: 15,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
                         ),
                       ),
-                      SizedBox(height: 20),  // Spazio aggiuntivo in fondo
+                      Divider(color: Colors.grey[300]),
+                      // Seat details
+                      Container(
+                        width: double.infinity,
+                        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'SEAT DETAILS',
+                              style: TextStyle(
+                                color: Colors.grey[600],
+                                fontSize: 12,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                            SizedBox(height: 5),
+                            Text(
+                              ticket['seat'],
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      // QR code con margini sufficienti
+                      Container(
+                        margin: EdgeInsets.only(top: 40, bottom: 40),
+                        height: 120,
+                        width: 120,
+                        decoration: BoxDecoration(
+                          color: Colors.grey[200],
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Icon(
+                          Icons.qr_code_2,
+                          size: 90,
+                          color: Colors.black,
+                        ),
+                      ),
                     ],
-                  ],
+                  ),
                 ),
-              ),
-            ),
           ),
         ),
       ],
@@ -568,28 +791,46 @@ class _TicketsPageState extends State<TicketsPage> with SingleTickerProviderStat
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.grey[100],
+      // Intestazione semplice con solo titolo
       appBar: AppBar(
-        title: Text('Tickets'),
-        backgroundColor: Colors.red,
-        actions: [
-          IconButton(
-            icon: Icon(Icons.add_circle_outline),
-            onPressed: () {},
+        title: Text(
+          'Tickets',
+          style: TextStyle(
+            fontSize: 22,
+            fontWeight: FontWeight.w500,
+            color: Colors.white,
           ),
-        ],
+        ),
+        backgroundColor: Color(0xFFE50914),
+        elevation: 2,
+        centerTitle: false,
+        iconTheme: IconThemeData(
+          color: Colors.white, // Imposta il colore bianco per la freccia indietro
+        ),
+        actions: [],
       ),
-      body: Column(
-        children: [
-          Expanded(
-            child: Stack(
-              alignment: Alignment.center,
-              clipBehavior: Clip.none,  // Permette al contenuto di estendersi oltre i confini
-              children: List.generate(tickets.length, (index) {
-                return _buildCard(index, tickets[index]);
-              }).reversed.toList(),
+      // FAB per aggiungere nuovi ticket
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {},
+        backgroundColor: Color(0xFFE50914),
+        child: Icon(Icons.add, color: Colors.white),
+      ),
+      body: Container(
+        color: Colors.grey[100],
+        child: Column(
+          children: [
+            Expanded(
+              child: Stack(
+                alignment: Alignment.topCenter,
+                clipBehavior: Clip.none,
+                children: List.generate(tickets.length, (index) {
+                  return _buildCard(index, tickets[index]);
+                }),
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
