@@ -11,7 +11,7 @@ class TrainBookingPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Train Booking',
+          'Hotel Booking',
           style: TextStyle(
             fontSize: 22,
             fontWeight: FontWeight.w500,
@@ -31,7 +31,7 @@ class TrainBookingPage extends StatelessWidget {
             Icon(Icons.train, size: 80, color: virginRed),
             SizedBox(height: 20),
             Text(
-              'Train Booking',
+              'Hotel Booking',
               style: TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
@@ -40,7 +40,7 @@ class TrainBookingPage extends StatelessWidget {
             ),
             SizedBox(height: 10),
             Text(
-              'Book train tickets for your next trip',
+              'Book hotel room for your next trip',
               style: TextStyle(
                 fontSize: 16,
                 color: Colors.grey[600],
@@ -217,11 +217,12 @@ class _ActivityPageState extends State<ActivityPage> {
         backgroundColor: virginRed,
         elevation: 2,
         centerTitle: false,
-        // Freccia indietro standard a sinistra
+        // Freccia indietro stile classico "<" a sinistra
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.white),
+          icon: Icon(Icons.chevron_left, color: Colors.white),
           onPressed: () {
             // Torna alla HomePage
+            
             Navigator.pushReplacement(
               context,
               MaterialPageRoute(builder: (context) => HomePage()),
@@ -267,8 +268,8 @@ class _ActivityPageState extends State<ActivityPage> {
                       ),
                       _buildActivityCard(
                         context,
-                        icon: Icons.train,
-                        title: 'Trains',
+                        icon: Icons.hotel,
+                        title: 'Hotels',
                         color: Colors.redAccent[400]!,
                         page: TrainBookingPage(),
                       ),
