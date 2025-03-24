@@ -41,6 +41,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_launcher_icons: ^0.13.1
+  mocktail: ^0.3.0
 
 
 flutter_icons:
@@ -92,7 +93,7 @@ flutter:
     - assets/mostro2_profilo.png
     - assets/mostro3_profilo.png
     - assets/mostro4_profilo.png
-    - assets/gift.jpg
+    - assets/gift.jpg 
     - assets/whale.jpg
     - assets/community.jpg
     - assets/airplane.jpeg

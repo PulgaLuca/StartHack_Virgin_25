@@ -1,102 +1,19 @@
 import 'package:flutter/material.dart';
+import 'widgets/avatar_widget.dart';
+
+final Color virginRed = Color(0xFFE50914); // Virgin Red color
+// Total points and spent points
+final int totalPoints = 1000000; // Total community points
+final int spentPoints = 600000; // Points already spent
+
 
 class CommunityPage extends StatefulWidget {
   @override
   _CommunityPageState createState() => _CommunityPageState();
 }
-// Classe Avatar globale riutilizzabile in tutte le pagine
-class AvatarWidget extends StatelessWidget {
-  final String imagePath; 
-  final double size;
-  final VoidCallback? onTap;
 
-  const AvatarWidget({
-    Key? key,
-    this.imagePath = 'assets/profile_image.png', // Immagine di default dell'utente
-    this.size = 40,
-    this.onTap,
-  }) : super(key: key);
 
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap ?? () {
-        // Mostra un menu o naviga al profilo
-        showDialog(
-          context: context,
-          builder: (context) => AlertDialog(
-            title: Text('Your Profile'),
-            content: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Container(
-                  width: 80,
-                  height: 80,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Color(0xFF58D68D), // Sfondo verde
-                  ),
-                  child: ClipOval(
-                    child: Image.asset(
-                      imagePath,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                ),
-                SizedBox(height: 16),
-                Text(
-                  'Sarah Rossi',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                SizedBox(height: 8),
-                Text('7,500 points'),
-                SizedBox(height: 16),
-                ElevatedButton(
-                  onPressed: () => Navigator.pop(context),
-                  child: Text('Close'),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Color(0xFFE50914),
-                    foregroundColor: Colors.white,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        );
-      },
-      child: Container(
-        width: size,
-        height: size,
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          color: Color(0xFF58D68D), // Sfondo verde
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.1),
-              blurRadius: 4,
-              offset: Offset(0, 2),
-            ),
-          ],
-        ),
-        child: ClipOval(
-          child: Image.asset(
-            imagePath,
-            fit: BoxFit.cover,
-          ),
-        ),
-      ),
-    );
-  }
-}
 class _CommunityPageState extends State<CommunityPage> {
-  final Color virginRed = Color(0xFFE50914); // Virgin Red color
-
-  // Total points and spent points
-  final int totalPoints = 1000000; // Total community points
-  final int spentPoints = 600000; // Points already spent
 
   final List<VotingProject> votingProjects = [
     VotingProject(
@@ -144,7 +61,6 @@ class _CommunityPageState extends State<CommunityPage> {
           Padding(
             padding: EdgeInsets.only(right: 16),
             child: AvatarWidget(
-              imagePath: 'assets/mostro2_profilo.png',
             ),
           ),
         ],
@@ -541,105 +457,6 @@ class _CommunityPageState extends State<CommunityPage> {
     );
   }
 
-  // Widget per costruire card di voto originale (non più usato ma mantenuto per riferimento)
-  Widget _buildVotingCard(BuildContext context, VotingProject project, int index) {
-    return Container(
-      width: 255,
-      margin: EdgeInsets.symmetric(horizontal: 6),
-      child: Card(
-        elevation: 3,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16),
-        ),
-        child: Padding(
-          padding: EdgeInsets.all(12),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // Project icon (placeholder)
-              Container(
-                width: 36,
-                height: 36,
-                decoration: BoxDecoration(
-                  color: virginRed.withOpacity(0.1),
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: Icon(
-                  _getIconForProject(index),
-                  color: virginRed,
-                  size: 20,
-                ),
-              ),
-              SizedBox(height: 10),
-              // Project title
-              Text(
-                project.title,
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black87,
-                ),
-              ),
-              SizedBox(height: 6),
-              // Project description
-              Text(
-                project.description,
-                style: TextStyle(
-                  fontSize: 13,
-                  color: Colors.grey[600],
-                ),
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-              ),
-              Spacer(),
-              // Votes counter and vote button
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    children: [
-                      Icon(Icons.people, size: 12, color: Colors.grey[700]),
-                      SizedBox(width: 4),
-                      Text(
-                        '${project.votes} votes',
-                        style: TextStyle(
-                          fontSize: 12,
-                          color: Colors.grey[700],
-                        ),
-                      ),
-                    ],
-                  ),
-                  ElevatedButton(
-                    onPressed: () => _voteForProject(index),
-                    child: Text('Vote'),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: virginRed,
-                      foregroundColor: Colors.white,
-                      padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  // Helper per ottenere icone diverse per ogni progetto
-  IconData _getIconForProject(int index) {
-    List<IconData> icons = [
-      Icons.airplanemode_active,
-      Icons.smartphone,
-      Icons.water_drop,
-    ];
-    
-    return index < icons.length ? icons[index] : Icons.volunteer_activism;
-  }
 }
 
 class VotingProject {

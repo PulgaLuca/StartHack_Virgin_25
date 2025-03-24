@@ -1,97 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
+import 'widgets/avatar_widget.dart';
 import 'activity_page.dart';
 import 'ticket_page.dart';
 import 'community_page.dart';
-import 'package:virgin_app/badges_page.dart';
+import 'badges_page.dart';
 
-// Classe Avatar globale riutilizzabile in tutte le pagine
-class AvatarWidget extends StatelessWidget {
-  final String imagePath; 
-  final double size;
-  final VoidCallback? onTap;
-
-  const AvatarWidget({
-    Key? key,
-    this.imagePath = 'assets/profile_image.png', // Immagine di default dell'utente
-    this.size = 40,
-    this.onTap,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap ?? () {
-        // Mostra un menu o naviga al profilo
-        showDialog(
-          context: context,
-          builder: (context) => AlertDialog(
-            title: Text('Your Profile'),
-            content: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Container(
-                  width: 80,
-                  height: 80,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Color(0xFF58D68D), // Sfondo verde
-                  ),
-                  child: ClipOval(
-                    child: Image.asset(
-                      imagePath,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                ),
-                SizedBox(height: 16),
-                Text(
-                  'Sarah Rossi',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                SizedBox(height: 8),
-                Text('7,500 points'),
-                SizedBox(height: 16),
-                ElevatedButton(
-                  onPressed: () => Navigator.pop(context),
-                  child: Text('Close'),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Color(0xFFE50914),
-                    foregroundColor: Colors.white,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        );
-      },
-      child: Container(
-        width: size,
-        height: size,
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          color: Color(0xFF58D68D), // Sfondo verde
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.1),
-              blurRadius: 4,
-              offset: Offset(0, 2),
-            ),
-          ],
-        ),
-        child: ClipOval(
-          child: Image.asset(
-            imagePath,
-            fit: BoxFit.cover,
-          ),
-        ),
-      ),
-    );
-  }
-}
+// Variabili globali
+final Color virginRed = Color(0xFFE50914);
+final int userPoints = 7500;
+final String userName = "Sarah";
 
 class HomePage extends StatefulWidget {
   @override
@@ -100,47 +18,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
-  final Color virginRed = Color(0xFFE50914);
   
-  final int userPoints = 7500;
-  
-  final List<Map<String, dynamic>> rewards = [
-    {
-      'points': 5000,
-      'title': '10% Discount',
-      'description': 'Flight ticket discount',
-      'isUnlocked': true,
-      'icon': Icons.local_offer,
-    },
-    {
-      'points': 7500,
-      'title': '15% Discount',
-      'description': 'Flight ticket discount',
-      'isUnlocked': true,
-      'icon': Icons.attach_money,
-    },
-    {
-      'points': 10000,
-      'title': '20% Discount',
-      'description': 'Flight ticket discount',
-      'isUnlocked': false,
-      'icon': Icons.card_giftcard,
-    },
-    {
-      'points': 20000,
-      'title': 'Priority Boarding',
-      'description': '30% discount + priority',
-      'isUnlocked': false,
-      'icon': Icons.flight_takeoff,
-    },
-    {
-      'points': 50000,
-      'title': 'Business Upgrade',
-      'description': '50% discount + business class',
-      'isUnlocked': false,
-      'icon': Icons.airline_seat_flat,
-    },
-  ];
   
   // Pagine per il tab navigator
   final List<Widget> _pages = [
@@ -164,8 +42,8 @@ class _HomePageState extends State<HomePage> {
       bottomNavigationBar: BottomAppBar(
         shape: CircularNotchedRectangle(),
         color: virginRed,
-        clipBehavior: Clip.antiAlias,
         notchMargin: 8,
+        height: 70, // Altezza Bottom Bar
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
@@ -195,7 +73,6 @@ class _HomePageState extends State<HomePage> {
         backgroundColor: Colors.white,
         onPressed: () => _onItemTapped(0),
         shape: CircleBorder(),
-        tooltip: 'Home',
         elevation: 4,
         child: Icon(Icons.home, color: virginRed, size: 30),
       ),
@@ -211,9 +88,6 @@ class HomeContent extends StatefulWidget {
 }
 
 class _HomeContentState extends State<HomeContent> {
-  final Color virginRed = Color(0xFFE50914);
-  final int userPoints = 7500;
-  final String userName = "Sarah";
   
   late VideoPlayerController _videoController;
   bool _isVideoInitialized = false;
@@ -245,28 +119,24 @@ class _HomeContentState extends State<HomeContent> {
       'points': 5000,
       'title': '10% Discount',
       'description': 'Flight ticket discount',
-      'isUnlocked': true,
       'icon': Icons.local_offer,
     },
     {
       'points': 7500,
       'title': '15% Discount',
       'description': 'Flight ticket discount',
-      'isUnlocked': true,
       'icon': Icons.attach_money,
     },
     {
       'points': 10000,
       'title': '20% Discount',
       'description': 'Flight ticket discount',
-      'isUnlocked': false,
       'icon': Icons.card_giftcard,
     },
     {
       'points': 20000,
       'title': 'Priority Boarding',
       'description': '30% discount + priority',
-      'isUnlocked': false,
       'icon': Icons.flight_takeoff,
     },
     {
@@ -421,11 +291,10 @@ class _HomeContentState extends State<HomeContent> {
                             ],
                           ),
                           
-                          // Avatar in alto a destra - AGGIUNTO QUI
+                          // Avatar in alto a destra
                           Padding(
                             padding: EdgeInsets.only(top: 5),
                             child: AvatarWidget(
-                              imagePath: 'assets/mostro2_profilo.png',
                               size: 50,
                             ),
                           ),
@@ -436,7 +305,7 @@ class _HomeContentState extends State<HomeContent> {
                 ),
               ),
               
-              // Video su sfondo bianco (altezza aumentata)
+              // Video su sfondo bianco
               Container(
                 color: Colors.white,
                 padding: EdgeInsets.symmetric(vertical: 20),
@@ -444,7 +313,7 @@ class _HomeContentState extends State<HomeContent> {
                   child: _isVideoInitialized
                       ? Container(
                           width: MediaQuery.of(context).size.width * 0.9,
-                          height: 340, // Aumentata l'altezza da 300 a 340
+                          height: 340,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(12),
                             border: Border.all(color: Colors.grey[300]!, width: 1),
@@ -456,7 +325,7 @@ class _HomeContentState extends State<HomeContent> {
                               ),
                             ],
                           ),
-                          clipBehavior: Clip.antiAlias,
+                          clipBehavior: Clip.antiAlias, // Bordi arrotondati
                           child: VideoPlayer(_videoController),
                         )
                       : Container(
@@ -475,7 +344,7 @@ class _HomeContentState extends State<HomeContent> {
                 ),
               ),
               
-              // Section title - Reward Levels con punti e redeem SULLA STESSA RIGA
+              //Reward Levels con punti e redeem SULLA STESSA RIGA
               Padding(
                 padding: EdgeInsets.fromLTRB(16, 10, 16, 0), // Ridotto lo spazio superiore
                 child: Column(
@@ -523,7 +392,7 @@ class _HomeContentState extends State<HomeContent> {
                           ),
                         ),
                         
-                        // Pulsante redeem (spazio ridotto)
+                        // Pulsante redeem
                         ElevatedButton.icon(
                           onPressed: () {},
                           icon: Icon(Icons.redeem, size: 18),
@@ -543,7 +412,7 @@ class _HomeContentState extends State<HomeContent> {
                 ),
               ),
               
-              // Reward levels list (spazio ridotto)
+              // Reward levels list
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
                 child: ListView.builder(
@@ -635,7 +504,7 @@ class _HomeContentState extends State<HomeContent> {
                 ),
               ),
               
-              // Section title - Your Impact Activity (spazio ridotto)
+              // Your Impact Activity
               Padding(
                 padding: const EdgeInsets.fromLTRB(16, 10, 16, 0), // Ridotto lo spazio
                 child: Row(
@@ -662,7 +531,7 @@ class _HomeContentState extends State<HomeContent> {
                 ),
               ),
               
-              // Recent activity list (spazio ridotto) CON COLORI MISTI
+              // Recent activity list
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
                 child: ListView.builder(
@@ -684,7 +553,7 @@ class _HomeContentState extends State<HomeContent> {
                       margin: EdgeInsets.only(bottom: 8), // Ridotto lo spazio tra card
                       child: Column(
                         children: [
-                          // Prima parte: l'attività con logo Virgin - ROSSA
+                          // l'attività con logo Virgin
                           ListTile(
                             leading: Container(
                               width: 46,
@@ -703,18 +572,18 @@ class _HomeContentState extends State<HomeContent> {
                               ),
                               padding: EdgeInsets.all(8),
                               child: Image.asset(
-                                activity['logoPath'],
+                                activity['logoPath'], // Prende dai dati statici
                                 fit: BoxFit.contain,
                               ),
                             ),
-                            title: Text(activity['activity']),
-                            subtitle: Text(activity['detail']),
+                            title: Text(activity['activity']), // Prende dai dati statici
+                            subtitle: Text(activity['detail']), // Prende dai dati statici
                             trailing: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               crossAxisAlignment: CrossAxisAlignment.end,
                               children: [
                                 Text(
-                                  activity['daysAgo'],
+                                  activity['daysAgo'], // Prende dai dati statici
                                   style: TextStyle(
                                     fontSize: 12,
                                     color: Colors.grey[600],
@@ -722,7 +591,7 @@ class _HomeContentState extends State<HomeContent> {
                                 ),
                                 SizedBox(height: 4),
                                 Text(
-                                  activity['points'],
+                                  activity['points'], // Prende dai dati statici
                                   style: TextStyle(
                                     color: Colors.green,
                                     fontWeight: FontWeight.bold,
@@ -732,7 +601,7 @@ class _HomeContentState extends State<HomeContent> {
                               ],
                             ),
                           ),
-                          // Seconda parte: l'impatto positivo - VERDE PER GLI IMPACTì
+                          // l'impatto positivo - VERDE
                           Container(
                             decoration: BoxDecoration(
                               color: impactColor.withOpacity(0.08), // Colore trasparente in base al tipo
@@ -748,7 +617,7 @@ class _HomeContentState extends State<HomeContent> {
                                   radius: 16,
                                   backgroundColor: impactColor.withOpacity(0.15), // Cerchio del colore appropriato
                                   child: Icon(
-                                    activity['impactIcon'],
+                                    activity['impactIcon'], // Prende dai dati statici
                                     size: 18,
                                     color: impactColor, // Icona del colore appropriato
                                   ),
@@ -759,7 +628,7 @@ class _HomeContentState extends State<HomeContent> {
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        activity['impactTitle'],
+                                        activity['impactTitle'], // Prende dai dati statici
                                         style: TextStyle(
                                           fontSize: 14,
                                           fontWeight: FontWeight.bold,
@@ -784,7 +653,7 @@ class _HomeContentState extends State<HomeContent> {
                                     borderRadius: BorderRadius.circular(8),
                                   ),
                                   child: Text(
-                                    activity['impactValue'],
+                                    activity['impactValue'], // Prende dai dati statici
                                     style: TextStyle(
                                       fontSize: 12,
                                       fontWeight: FontWeight.bold,

@@ -1,103 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
+import 'widgets/avatar_widget.dart';
+
+final Color virginRed = Color(0xFFE50914);
+
 class TicketsPage extends StatefulWidget {
   @override
   _TicketsPageState createState() => _TicketsPageState();
-}
-
-// Classe Avatar globale riutilizzabile in tutte le pagine
-class AvatarWidget extends StatelessWidget {
-  final String imagePath; 
-  final double size;
-  final VoidCallback? onTap;
-
-  const AvatarWidget({
-    Key? key,
-    this.imagePath = 'assets/profile_image.png', // Immagine di default dell'utente
-    this.size = 40,
-    this.onTap,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap ?? () {
-        // Mostra un menu o naviga al profilo
-        showDialog(
-          context: context,
-          builder: (context) => AlertDialog(
-            title: Text('Your Profile'),
-            content: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Container(
-                  width: 80,
-                  height: 80,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Color(0xFF58D68D), // Sfondo verde
-                  ),
-                  child: ClipOval(
-                    child: Image.asset(
-                      imagePath,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                ),
-                SizedBox(height: 16),
-                Text(
-                  'Sarah Rossi',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                SizedBox(height: 8),
-                Text('7,500 points'),
-                SizedBox(height: 16),
-                ElevatedButton(
-                  onPressed: () => Navigator.pop(context),
-                  child: Text('Close'),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Color(0xFFE50914),
-                    foregroundColor: Colors.white,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        );
-      },
-      child: Container(
-        width: size,
-        height: size,
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          color: Color(0xFF58D68D), // Sfondo verde
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.1),
-              blurRadius: 4,
-              offset: Offset(0, 2),
-            ),
-          ],
-        ),
-        child: ClipOval(
-          child: Image.asset(
-            imagePath,
-            fit: BoxFit.cover,
-          ),
-        ),
-      ),
-    );
-  }
 }
 
 class _TicketsPageState extends State<TicketsPage> with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
   int _selectedCardIndex = -1;
   bool _isCardExpanded = false;
-  final Color virginRed = Color(0xFFE50914);
   
   // Definizione dei colori di sfondo per gli avatar con maggiore contrasto
   final Map<String, Color> avatarBackgrounds = {
@@ -118,7 +32,7 @@ class _TicketsPageState extends State<TicketsPage> with SingleTickerProviderStat
       'flightNumber': 'VS206',
       'gate': '14',
       'seat': '12A',
-      'backgroundColor': Color(0xFFE50914),
+      'backgroundColor': virginRed,
       'textColor': Colors.white,
       'logoPath': 'assets/virgin_atlantic_logo.png',
       'company': 'Virgin Atlantic',
@@ -130,7 +44,7 @@ class _TicketsPageState extends State<TicketsPage> with SingleTickerProviderStat
       'title': 'Gym Access',
       'membershipNumber': '9876543210',
       'validUntil': '15 MAY 2025',
-      'backgroundColor': Color(0xFFE50914),
+      'backgroundColor': virginRed,
       'textColor': Colors.white,
       'logoPath': 'assets/virgin_active_logo.png',
       'company': 'Virgin Active',
@@ -146,13 +60,14 @@ class _TicketsPageState extends State<TicketsPage> with SingleTickerProviderStat
       'time': '19:30',
       'location': 'San Siro Stadium, Milan',
       'seat': 'Section B, Row 10, Seat 45',
-      'backgroundColor': Color(0xFFE50914),
+      'backgroundColor': virginRed,
       'textColor': Colors.white,
       'logoPath': 'assets/virgin_radio_logo.png',
       'company': 'Virgin Radio'
     },
   ];
 
+  // Animazione del ticket che si espande
   @override
   void initState() {
     super.initState();
@@ -203,9 +118,9 @@ class _TicketsPageState extends State<TicketsPage> with SingleTickerProviderStat
                   ),
                 ),
                 SizedBox(height: 15),
-                _buildFriendItem('Luca Verdi', 'assets/mostro2_profilo.png', Colors.pink),
-                _buildFriendItem('Sofia Russo', 'assets/mostro3_profilo.png', Colors.lightBlue),
-                _buildFriendItem('Marco Bruno', 'assets/mostro4_profilo.png', Colors.yellow),
+                _buildFriendItem('Luca Verdi', 'assets/mostro2_profilo.png'),
+                _buildFriendItem('Sofia Russo', 'assets/mostro3_profilo.png'),
+                _buildFriendItem('Marco Bruno', 'assets/mostro4_profilo.png'),
               ],
             ),
           ),
@@ -233,7 +148,7 @@ class _TicketsPageState extends State<TicketsPage> with SingleTickerProviderStat
     );
   }
 
-  Widget _buildFriendItem(String name, String imagePath, Color color) {
+  Widget _buildFriendItem(String name, String imagePath) {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 8.0),
       child: Row(
@@ -241,7 +156,7 @@ class _TicketsPageState extends State<TicketsPage> with SingleTickerProviderStat
           CircleAvatar(
             radius: 24,
             backgroundImage: AssetImage(imagePath),
-            backgroundColor: color,
+            backgroundColor: avatarBackgrounds[imagePath], // Usa il colore dalla mappa
           ),
           SizedBox(width: 15),
           Text(
@@ -1015,7 +930,6 @@ class _TicketsPageState extends State<TicketsPage> with SingleTickerProviderStat
           Padding(
             padding: EdgeInsets.only(right: 16),
             child: AvatarWidget(
-              imagePath: 'assets/mostro2_profilo.png',
             ),
           ),
         ],
@@ -1057,7 +971,6 @@ class _TicketsPageState extends State<TicketsPage> with SingleTickerProviderStat
               backgroundColor: virginRed,
               child: Icon(Icons.add, color: Colors.white),
               heroTag: "addTicket", // Per evitare conflitti con altri FAB
-              tooltip: 'Add Ticket',
             ),
           ),
         ],

@@ -1,98 +1,11 @@
 import 'package:flutter/material.dart';
 import 'airplane_booking_page.dart';
+import 'widgets/avatar_widget.dart';
 
-// Widget Avatar riutilizzabile
-class AvatarWidget extends StatelessWidget {
-  final String imagePath; 
-  final double size;
-  final VoidCallback? onTap;
+final Color virginRed = Color(0xFFE50914);
 
-  const AvatarWidget({
-    Key? key,
-    this.imagePath = 'assets/profile_image.png',
-    this.size = 40,
-    this.onTap,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap ?? () {
-        // Mostra un menu o naviga al profilo
-        showDialog(
-          context: context,
-          builder: (context) => AlertDialog(
-            title: Text('Your Profile'),
-            content: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Container(
-                  width: 80,
-                  height: 80,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Color(0xFF58D68D), // Sfondo verde
-                  ),
-                  child: ClipOval(
-                    child: Image.asset(
-                      imagePath,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                ),
-                SizedBox(height: 16),
-                Text(
-                  'Sarah Rossi',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                SizedBox(height: 8),
-                Text('7,500 points'),
-                SizedBox(height: 16),
-                ElevatedButton(
-                  onPressed: () => Navigator.pop(context),
-                  child: Text('Close'),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Color(0xFFE50914),
-                    foregroundColor: Colors.white,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        );
-      },
-      child: Container(
-        width: size,
-        height: size,
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          color: Color(0xFF58D68D), // Sfondo verde
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.1),
-              blurRadius: 4,
-              offset: Offset(0, 2),
-            ),
-          ],
-        ),
-        child: ClipOval(
-          child: Image.asset(
-            imagePath,
-            fit: BoxFit.cover,
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-// Pagine di prenotazione con design migliorato e avatar
 class TrainBookingPage extends StatelessWidget {
-  final Color virginRed = Color(0xFFE50914);
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -116,8 +29,6 @@ class TrainBookingPage extends StatelessWidget {
           Padding(
             padding: EdgeInsets.only(right: 16),
             child: AvatarWidget(
-              imagePath: 'assets/mostro2_profilo.png',
-              size: 40,
             ),
           ),
         ],
@@ -165,7 +76,7 @@ class TrainBookingPage extends StatelessWidget {
 }
 
 class GymPage extends StatelessWidget {
-  final Color virginRed = Color(0xFFE50914);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -188,7 +99,6 @@ class GymPage extends StatelessWidget {
           Padding(
             padding: EdgeInsets.only(right: 16),
             child: AvatarWidget(
-              imagePath: 'assets/mostro2_profilo.png',
               size: 40,
             ),
           ),
@@ -237,7 +147,6 @@ class GymPage extends StatelessWidget {
 }
 
 class MoviePage extends StatelessWidget {
-  final Color virginRed = Color(0xFFE50914);
   
   @override
 
@@ -262,8 +171,6 @@ class MoviePage extends StatelessWidget {
           Padding(
             padding: EdgeInsets.only(right: 16),
             child: AvatarWidget(
-              imagePath: 'assets/mostro2_profilo.png',
-              size: 40,
             ),
           ),
         ],
@@ -317,7 +224,6 @@ class ActivityPage extends StatefulWidget {
 }
 
 class _ActivityPageState extends State<ActivityPage> {
-  final Color virginRed = Color(0xFFE50914);
 
   @override
   Widget build(BuildContext context) {
@@ -343,7 +249,6 @@ class _ActivityPageState extends State<ActivityPage> {
           Padding(
             padding: EdgeInsets.only(right: 16),
             child: AvatarWidget(
-              imagePath: 'assets/mostro2_profilo.png',
             ),
           ),
         ],
@@ -607,62 +512,6 @@ class _ActivityPageState extends State<ActivityPage> {
                         ),
                       ),
                     ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-  
-  // Versione precedente del metodo, mantenuta per riferimento
-  Widget _buildActivityCard(
-    BuildContext context, {
-    required IconData icon,
-    required String title,
-    required Color color,
-    required Widget page,
-  }) {
-    return GestureDetector(
-      onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => page),
-        );
-      },
-      child: Container(
-        width: 150,
-        padding: EdgeInsets.all(4),
-        child: Card(
-          elevation: 3,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16),
-          ),
-          child: Padding(
-            padding: EdgeInsets.all(16),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Container(
-                  width: 70,
-                  height: 70,
-                  decoration: BoxDecoration(
-                    color: color.withOpacity(0.1),
-                    shape: BoxShape.circle,
-                  ),
-                  child: Center(
-                    child: Icon(icon, color: color, size: 36),
-                  ),
-                ),
-                SizedBox(height: 12),
-                Text(
-                  title,
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black87,
                   ),
                 ),
               ],

@@ -1,97 +1,11 @@
 import 'package:flutter/material.dart';
+import 'widgets/avatar_widget.dart';
 
 class AirplaneBookingPage extends StatefulWidget {
   @override
   _AirplaneBookingPageState createState() => _AirplaneBookingPageState();
 }
 
-// Widget Avatar riutilizzabile
-class AvatarWidget extends StatelessWidget {
-  final String imagePath; 
-  final double size;
-  final VoidCallback? onTap;
-
-  const AvatarWidget({
-    Key? key,
-    this.imagePath = 'assets/profile_image.png',
-    this.size = 40,
-    this.onTap,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap ?? () {
-        // Mostra un menu o naviga al profilo
-        showDialog(
-          context: context,
-          builder: (context) => AlertDialog(
-            title: Text('Your Profile'),
-            content: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Container(
-                  width: 80,
-                  height: 80,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Color(0xFF58D68D), // Sfondo verde
-                  ),
-                  child: ClipOval(
-                    child: Image.asset(
-                      imagePath,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                ),
-                SizedBox(height: 16),
-                Text(
-                  'Sarah Rossi',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                SizedBox(height: 8),
-                Text('7,500 points'),
-                SizedBox(height: 16),
-                ElevatedButton(
-                  onPressed: () => Navigator.pop(context),
-                  child: Text('Close'),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Color(0xFFE50914),
-                    foregroundColor: Colors.white,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        );
-      },
-      child: Container(
-        width: size,
-        height: size,
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          color: Color(0xFF58D68D), // Sfondo verde
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.1),
-              blurRadius: 4,
-              offset: Offset(0, 2),
-            ),
-          ],
-        ),
-        child: ClipOval(
-          child: Image.asset(
-            imagePath,
-            fit: BoxFit.cover,
-          ),
-        ),
-      ),
-    );
-  }
-}
 
 class _AirplaneBookingPageState extends State<AirplaneBookingPage> {
   // Helper per creare una card promozione 
@@ -253,8 +167,6 @@ class _AirplaneBookingPageState extends State<AirplaneBookingPage> {
           Padding(
             padding: EdgeInsets.only(right: 16),
             child: AvatarWidget(
-              imagePath: 'assets/mostro2_profilo.png',
-              size: 40,
             ),
           ),
         ],
